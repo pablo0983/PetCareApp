@@ -1,0 +1,3 @@
+"NSCameraUsageDescription" = "We need camera access to attach images to incidents.";
+"NSPhotoLibraryAddUsageDescription" = "We need permission to save the signature image to your device.";
+"NSPhotoLibraryUsageDescription" = "We need access to your gallery to attach or save incident-related images.";
