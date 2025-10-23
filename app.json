@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.pablopetry.petcareapp",
-      "buildNumber": "6",
+      "buildNumber": "7",
       "locales": {
         "es": "./ios/PetCareApp/es.lproj/InfoPlist.strings",
         "en": "./ios/PetCareApp/en.lproj/InfoPlist.strings",
@@ -30,7 +30,7 @@
     },
     "android": {
       "package": "com.pablopetry.PetCareApp",
-      "versionCode": 6,
+      "versionCode": 10,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"

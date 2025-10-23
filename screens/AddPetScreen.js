@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TextInput, StyleSheet, TouchableOpacity, Platform, View, ImageBackground, Image, ScrollView, Alert, Modal 
-} from "react-native";
+import { Text, TextInput, StyleSheet, TouchableOpacity, Platform, View, ImageBackground, Image, ScrollView, Alert, Modal } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from 'expo-image-picker';
 import { addPet } from '../services/localStorage';
@@ -16,10 +15,21 @@ const AddPetScreen = ({ navigation }) => {
   const [birthDate, setBirthDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [image, setImage] = useState(null);
-  
+
+  // 🔹 Nuevo: menú desplegable para especie
+  const [speciesModalVisible, setSpeciesModalVisible] = useState(false);
+  const speciesOptions = [
+    { value: "dog", label: I18n.t("species.dog") },
+    { value: "cat", label: I18n.t("species.cat") },
+    { value: "rabbit", label: I18n.t("species.rabbit") },
+    { value: "hamster", label: I18n.t("species.hamster") },
+    { value: "other",label: I18n.t("species.other") },
+  ];
+
   const showDatePicker = () => setDatePickerVisibility(true);
   const hideDatePicker = () => setDatePickerVisibility(false);
   const handleConfirm = (date) => { setBirthDate(date); hideDatePicker(); };
+  
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -54,7 +64,44 @@ const AddPetScreen = ({ navigation }) => {
         <Text style={styles.title}>{I18n.t("pet_data")}</Text> 
 
         <TextInput style={styles.input} placeholder={I18n.t("name")} value={name} onChangeText={setName} />
-        <TextInput style={styles.input} placeholder={I18n.t("species")} value={species} onChangeText={setSpecies} />
+
+        {/* 🔹 Menú desplegable para especie */}
+        <TouchableOpacity
+          style={styles.pickerButton}
+          onPress={() => setSpeciesModalVisible(true)}
+        >
+          <Text style={{ fontSize: 16 }}>
+            {species ? species : I18n.t("pet_species")}
+          </Text>
+        </TouchableOpacity>
+
+        <Modal
+          visible={speciesModalVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setSpeciesModalVisible(false)}
+        >
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            onPress={() => setSpeciesModalVisible(false)}
+          >
+            <View style={styles.modalContainer}>
+              {speciesOptions.map((item) => (
+                <TouchableOpacity
+                  key={item.value}
+                  style={styles.modalItem}
+                  onPress={() => {
+                    setSpecies(item.value);
+                    setSpeciesModalVisible(false);
+                  }}
+                >
+                  <Text style={styles.modalItemText}>{item.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
         <TextInput style={styles.input} placeholder={I18n.t("breed")} value={breed} onChangeText={setBreed} />
         <TextInput style={styles.input} placeholder={I18n.t("sex")} value={gender} onChangeText={setGender} />
         <TextInput style={styles.input} placeholder={I18n.t("weight")} value={weight} keyboardType="numeric" onChangeText={setWeight} />
@@ -116,7 +163,6 @@ const AddPetScreen = ({ navigation }) => {
           )
         )}
 
-
         {/* 🖼 Imagen */}
         <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
           {image ? (
@@ -141,10 +187,10 @@ const AddPetScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
+  background: { 
+    flex: 1, 
+    width: '100%', 
+    height: '100%' 
   },
   scrollContainer: {
     flexGrow: 1,
@@ -152,7 +198,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: 'rgba(82, 159, 65, 0.6)',
+    backgroundColor: 'rgba(82, 159, 65, 0.6)'
   },
   title: {
     fontSize: 32,
@@ -168,7 +214,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 10,
-    borderRadius: 8,
+    borderRadius: 8
   },
   dateButton: {
     width: '100%',
@@ -178,58 +224,56 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: 'rgba(187, 223, 179, 0.8)',
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 10
   },
-  dateText: {
-    fontSize: 15,
+  dateText: { 
+    fontSize: 15 
   },
-  // ios date picker
+
+  // iOS date picker
   overlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "flex-end",
-    alignItems: "center",
+    alignItems: "center"
   },
   modalContent: {
     width: "100%",
     backgroundColor: "#78b57cff",
     borderRadius: 50,
     padding: 20,
-    alignItems: "center",
+    alignItems: "center"
   },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
+  buttonRow: { 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    width: "100%", 
+    marginTop: 20 
   },
-  cancelButton: {
-    flex: 1,
-    marginRight: 10,
-    backgroundColor: "#5a7e62ff",
-    padding: 8,
-    borderRadius: 10,
+  cancelButton: { flex: 1, 
+    marginRight: 10, 
+    backgroundColor: "#5a7e62ff", 
+    padding: 8, 
+    borderRadius: 10 
   },
-  confirmButton: {
-    flex: 1,
-    marginLeft: 10,
-    backgroundColor: "#4caf50",
-    padding: 8,
-    borderRadius: 10,
+  confirmButton: { 
+    flex: 1, marginLeft: 10, 
+    backgroundColor: "#4caf50", 
+    padding: 8, 
+    borderRadius: 10 
   },
-  cancelText: {
-    color: "#fff",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 20,
+  cancelText: { 
+    color: "#fff", 
+    textAlign: "center", 
+    fontWeight: "bold", 
+    fontSize: 20 
   },
-  confirmText: {
-    color: "#fff",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 20
+  confirmText: { 
+    color: "#fff", 
+    textAlign: "center", 
+    fontWeight: "bold", 
+    fontSize: 20 
   },
-  //
   imageButton: {
     width: '100%',
     minHeight: 200,
@@ -239,39 +283,73 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(187, 223, 179, 0.8)',
     borderRadius: 8,
     marginBottom: 10,
+    borderWidth: 1
+  },
+  imagePreview: { 
+    width: '100%', 
+    height: 200, 
+    borderRadius: 12, 
+    resizeMode: 'cover' 
+  },
+  saveButton: { 
+    width: '100%', 
+    backgroundColor: '#4caf4fe7', 
+    padding: 20, 
+    borderRadius: 12, 
+    marginBottom: 10 
+  },
+  saveText: { 
+    color: 'white', 
+    fontSize: 22, 
+    textAlign: 'center', 
+    ontWeight: 'bold' 
+  },
+  backButton: { 
+    width: '100%', 
+    alignItems: 'center', 
+    backgroundColor: '#2195f3c2', 
+    padding: 15, 
+    borderRadius: 12, 
+    marginBottom: 30 
+  },
+  backText: { 
+    color: '#fff', 
+    fontSize: 20, 
+    fontWeight: 'bold' 
+  },
+
+  // 🔹 Estilos del menú desplegable
+  pickerButton: {
+    width: "100%",
+    height: 45,
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    backgroundColor: "rgba(187, 223, 179, 0.8)",
+    borderRadius: 8,
     borderWidth: 1,
+    marginBottom: 10
   },
-  imagePreview: {
-    width: '100%',
-    height: 200,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "#78b57cfe",
     borderRadius: 12,
-    resizeMode: 'cover',
+    paddingVertical: 10
   },
-  saveButton: {
-    width: '100%',
-    backgroundColor: '#4caf4fe7',
-    padding: 20,
-    borderRadius: 12,
-    marginBottom: 10,
+  modalItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderColor: "#ddd"
   },
-  saveText: {
-    color: 'white',
-    fontSize: 22,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  backButton: {
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: '#2195f3c2',
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 30,
-  },
-  backText: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
+  modalItemText: { 
+    fontSize: 23,
+    fontWeight: 500 
   },
 });
 

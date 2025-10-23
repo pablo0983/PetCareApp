@@ -1,4 +1,4 @@
-package com.pablopetry.petcareapp
+package com.pablopetry.PetCareApp
 
 import android.os.Build
 import android.os.Bundle

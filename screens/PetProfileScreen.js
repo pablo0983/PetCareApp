@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ImageBackground, TextInput } from 'react-native';
+import { 
+  View, Text, Image, TouchableOpacity, StyleSheet, ImageBackground, 
+  TextInput, Alert, ScrollView 
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { getPetById, updatePet } from '../services/localStorage';
 import I18n from '../src/locales/i18n';
@@ -7,8 +10,9 @@ import I18n from '../src/locales/i18n';
 const PetProfileScreen = ({ route, navigation }) => {
   const { petId } = route.params;
   const [pet, setPet] = useState(null);
-  const [editingWeight, setEditingWeight] = useState(false); // ✏️ estado para modo edición del peso
-  const [newWeight, setNewWeight] = useState(''); // ✏️ peso temporal mientras editamos
+  const [editingWeight, setEditingWeight] = useState(false);
+  const [newWeight, setNewWeight] = useState('');
+  const [foodRecommendation, setFoodRecommendation] = useState('');
 
   useEffect(() => {
     loadPet();
@@ -16,8 +20,12 @@ const PetProfileScreen = ({ route, navigation }) => {
 
   const loadPet = async () => {
     const data = await getPetById(petId);
-    setPet(data);
-    setNewWeight(data?.weight?.toString() || ''); // inicializar peso editable
+    if (data) {
+      setPet(data);
+      setNewWeight(data.weight?.toString() || '');
+      const age = calculateAgeInMonthsOrYears(data.birthDate);
+      setFoodRecommendation(getFoodRecommendation(data.species, data.weight, age, data.birthDate));
+    }
   };
 
   const pickImage = async () => {
@@ -34,56 +42,141 @@ const PetProfileScreen = ({ route, navigation }) => {
     }
   };
 
-  if (!pet) return <Text style={{ padding: 20 }}>Cargando...</Text>;
+  const calculateAgeInMonthsOrYears = (birthDate) => {
+  if (!birthDate) return '';
 
-  const calculateAge = (birthDate) => {
-    if (!birthDate) return '';
-    const today = new Date();
-    const dob = new Date(birthDate);
-    let age = today.getFullYear() - dob.getFullYear();
-    const m = today.getMonth() - dob.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-      age--;
+  const today = new Date();
+  const dob = new Date(birthDate);
+
+  let years = today.getFullYear() - dob.getFullYear();
+  let months = today.getMonth() - dob.getMonth();
+
+  if (today.getDate() < dob.getDate()) {
+    months -= 1; // si el día del mes aún no llegó
+  }
+
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  if (years < 1) {
+    return `${months} ${I18n.t("months")}`;
+  } else if (months === 0) {
+    return `${years} ${I18n.t("years")}`;
+  } else {
+    return `${years} ${I18n.t("years")} ${I18n.t("and")} ${months} ${I18n.t("months")}`;
+  }
+};
+
+  const getRecommendationColor = (species) => {
+    switch (species?.toLowerCase()) {
+      case "dog": return "#a0d2eb";
+      case "cat": return "#f4a261";
+      case "rabbit": return "#9ae79a";
+      case "hamster": return "#f7e67a";
+      default: return "#f9f9f9";
     }
-    return age;
   };
-  // 💾 Guardar nuevo peso
+
+  const getFoodRecommendation = (species, weight, ageDisplay, birthDate) => {
+    if (!weight || !birthDate) return I18n.t("missing");
+
+    let emoji = '';
+    const birth = new Date(birthDate);
+    const today = new Date();
+    const ageInMonths = (today.getFullYear() - birth.getFullYear()) * 12 + (today.getMonth() - birth.getMonth());
+
+    switch (species?.toLowerCase()) {
+      case "dog":
+        emoji = '🐶';
+        if (ageInMonths < 12) return `${emoji} ${I18n.t("puppy")}`;
+        if (weight < 5) return `${emoji} ${I18n.t("small_Dog_Food")}`;
+        if (weight < 15) return `${emoji} ${I18n.t("medium_Dog_Food")}`;
+        if (weight < 30) return `${emoji} ${I18n.t("large_Dog_Food")}`;
+        return `${emoji} ${I18n.t("giant_Dog_Food")}`;
+
+      case "cat":
+        emoji = '🐱';
+        if (ageInMonths < 12) return `${emoji} ${I18n.t("kitten_Food")}`;
+        if (weight < 3) return `${emoji} ${I18n.t("small_Cat_Food")}`;
+        if (weight < 5) return `${emoji} ${I18n.t("medium_Cat_Food")}`;
+        return `${emoji} ${I18n.t("large_Cat_Food")}`;
+
+      case "rabbit":
+        emoji = '🐰';
+        if (ageInMonths < 3) return `${emoji} ${I18n.t("small_rabbit")}`;
+        if (weight < 2) return `${emoji} ${I18n.t("medium_rabbit")}`;
+        if (weight < 4) return `${emoji} ${I18n.t("large_rabbit")}`;
+        return `${emoji} ${I18n.t("giant_rabbit")}`;
+
+      case "hamster":
+        emoji = '🐹';
+        if (ageInMonths < 2) return `${emoji} ${I18n.t("small_hamster")}`;
+        return `${emoji} ${I18n.t("medium_hamster")}`;
+
+      default:
+        return `${I18n.t("unknown_species")}`;
+    }
+  };
+
+  useEffect(() => {
+    if (pet) {
+      const ageDisplay = calculateAgeInMonthsOrYears(pet.birthDate);
+      const weightValue = parseFloat(newWeight);
+      if (!isNaN(weightValue)) {
+        setFoodRecommendation(getFoodRecommendation(pet.species, weightValue, ageDisplay, pet.birthDate));
+      }
+    }
+  }, [newWeight, pet]);
+
   const saveWeight = async () => {
-    if (!newWeight || isNaN(newWeight)) {
-      Alert.alert("⚠️ ");
+    const weightValue = parseFloat(newWeight);
+    if (!newWeight || isNaN(weightValue)) {
+      Alert.alert("⚠️ " + I18n.t("invalid_weight"));
       return;
     }
-
-    const updatedPet = { ...pet, weight: parseFloat(newWeight) };
+    const updatedPet = { ...pet, weight: weightValue };
     await updatePet(petId, updatedPet);
     setPet(updatedPet);
     setEditingWeight(false);
-    Alert.alert("✅ ");
+    Alert.alert("✅ " + I18n.t("update_weight"));
   };
+
+  if (!pet) return <Text style={{ padding: 20 }}>{I18n.t("loading")}</Text>;
 
   return (
     <ImageBackground
-      source={require("../assets/fondodos.jpg")} 
+      source={require("../assets/fondodos.jpg")}
       style={styles.background}
       resizeMode="cover"
     >
-      <View style={styles.container}> 
+      <ScrollView contentContainerStyle={styles.container}>
         <TouchableOpacity onPress={pickImage}>
-          <Image
-            source={pet.image ? { uri: pet.image } : { uri: 'https://cdn-icons-png.flaticon.com/512/616/616408.png' }}
-            style={styles.image}
-          />
+          {pet.image ? (
+            <Image source={{ uri: pet.image }} style={styles.image} />
+          ) : (
+            <View style={styles.emojiContainer}>
+              <Text style={styles.emoji}>
+                {pet.species?.includes("dog") ? "🐶" :
+                 pet.species?.includes("cat") ? "🐱" :
+                 pet.species?.includes("rabbit") ? "🐰" :
+                 pet.species?.includes("hamster") ? "🐹" :
+                 "🐾"}
+              </Text>
+            </View>
+          )}
           <Text style={styles.editText}>{I18n.t("ch_im")}</Text>
         </TouchableOpacity>
 
-        {/* Datos básicos */}
         <Text style={styles.name}>{pet.name}</Text>
+
         <View style={styles.info}>
-          <Text style={styles.infoText}>🐾 {I18n.t("species")}: {pet.species}</Text>
+          <Text style={styles.infoText}>🐾 {I18n.t("pet_species")}: {I18n.t(`species.${pet.species}`)}</Text>
           <Text style={styles.infoText}>🐕 {I18n.t("breed")}: {pet.breed}</Text>
           <Text style={styles.infoText}>⚧ {I18n.t("sex")}: {pet.gender}</Text>
-          <Text style={styles.infoText}>🎂 {I18n.t("age")}: {calculateAge(pet.birthDate)} años</Text>
-          {/* ⚖️ Peso editable */}
+          <Text style={styles.infoText}>🎂 {I18n.t("age")}: {calculateAgeInMonthsOrYears(pet.birthDate)}</Text>
+
           <View style={styles.weightRow}>
             <Text style={styles.infoText}>⚖ {I18n.t("weight")}: </Text>
             {editingWeight ? (
@@ -106,14 +199,28 @@ const PetProfileScreen = ({ route, navigation }) => {
               </TouchableOpacity>
             )}
           </View>
+
           <Text 
-          adjustsFontSizeToFit={true}
-          minimumFontScale={0.5} 
-          numberOfLines={2}
-          allowFontScaling={true} 
-          style={styles.infoText}>{pet.notes}</Text>
+            adjustsFontSizeToFit
+            minimumFontScale={0.5} 
+            numberOfLines={2}
+            allowFontScaling
+            style={styles.infoText}
+          >
+            {pet.notes}
+          </Text>
+
+          <View 
+            style={[
+              styles.recommendationBox, 
+              { backgroundColor: getRecommendationColor(pet.species) }
+            ]}
+          >
+            <Text style={styles.recommendationTitle}>🍖 {I18n.t("nutritional")}</Text>
+            <Text style={styles.recommendationText}>{foodRecommendation}</Text>
+          </View>
         </View>
-        {/* Botones */}
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('AddIncidentScreen', { petId })}
@@ -127,146 +234,170 @@ const PetProfileScreen = ({ route, navigation }) => {
         >
           <Text style={styles.buttonText}>📜 {I18n.t("view_history")}</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.button2}
           onPress={() => navigation.navigate('Reminders', { petId })}
         >
           <Text style={styles.buttonText}>⏱️ {I18n.t("reminders")}</Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Text style={styles.backText}>{I18n.t("back")}</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%'
-    },     
-  container: {
+  background: { 
     flex: 1, 
+    width: '100%', 
+    height: '100%' 
+  },
+  container: {
+    flexGrow: 1,
     padding: 20,
     backgroundColor: 'rgba(227, 227, 144, 0.8)',
     alignItems: 'center',
-    justifyContent: 'space-between' 
+    justifyContent: 'flex-start'
   },
   image: { 
-    marginTop: 25,
+    marginTop: 25, 
     width: 200, 
     height: 200, 
     borderRadius: 100, 
-    alignSelf: 'center',
-    resizeMode: 'cover',
-    padding: 0
+    resizeMode: 'cover'
+  },
+  emojiContainer: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: '#ffffffa8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 25,
+    borderWidth: 3,
+    borderColor: '#6b705c',
+  },
+  emoji: {
+    fontSize: 150,
   },
   editText: { 
     textAlign: 'center', 
     color: 'blue', 
-    marginTop: 5,
-    fontSize: 15,
-    padding: 0 
+    marginTop: 5, 
+    fontSize: 15 
   },
-  name: {
-    padding: 0,
-    fontSize: 40,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 1,
+  name: { 
+    fontSize: 40, 
+    fontWeight: 'bold', 
+    textAlign: 'center', 
+    marginTop: 10 
   },
-  info: {
-    padding: 0,
-    marginTop: 5,
-    alignItems: 'center',
-    width: '100%',
-    height: 200,
-    borderRadius: 8
+  info: { 
+    marginTop: 10, 
+    alignItems: 'center', 
+    width: '100%' 
   },
-  infoText:  {
-    fontSize: 22,
-    fontWeight: 'bold'
-  },
-
-  weightRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 8,
-  },
-  editableWeight: {
-    textDecorationLine: 'underline',
-    color: '#0077cc'
-  },
-  weightInput: {
-    borderBottomWidth: 2,
-    borderColor: '#0077cc',
-    width: 80,
-    textAlign: 'center',
-    fontSize: 22,
-    marginRight: 8,
-  },
-  saveWeightBtn: {
-    backgroundColor: '#4caf4f',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  saveWeightText: {
-    color: '#fff',
+  infoText: { 
     fontSize: 22, 
+    fontWeight: 'bold', 
+    marginVertical: 2 
   },
-
-  button: {
-    height: 60,
+  weightRow: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginVertical: 8 
+  },
+  editableWeight: { 
+    textDecorationLine: 'underline', 
+    color: '#0077cc' 
+  },
+  weightInput: { 
+    borderBottomWidth: 2, 
+    borderColor: '#0077cc', 
+    width: 80, 
+    textAlign: 'center', 
+    fontSize: 22, 
+    marginRight: 12 
+  },
+  saveWeightBtn: { 
+    backgroundColor: '#4caf4f', 
+    paddingHorizontal: 8, 
+    paddingVertical: 4, 
+    borderRadius: 6 
+  },
+  saveWeightText: { 
+    color: '#fff', 
+    fontSize: 22 
+  },
+  recommendationBox: { 
+    borderRadius: 12, 
+    padding: 5, 
+    marginTop: 5, 
+    borderWidth: 1, 
+    borderColor: "#ddd", 
     width: '100%',
-    backgroundColor: '#4caf4fd4',
-    padding: 0,
-    borderRadius: 8,
-    marginTop: 2,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center' 
   },
-  button1: {
-    height: 60,
-    width: "100%",
-    backgroundColor: '#2195f3e4',
-    padding: 0,
-    borderRadius: 8,
-    marginTop: 2,
-    justifyContent: 'center'
+  recommendationTitle: { 
+    fontSize: 16, 
+    fontWeight: "bold", 
+    color: "#333", 
+    marginBottom: 6 
   },
-  button2: {
-    height: 60,
-    width: "100%",
-    backgroundColor: '#cfa51edc',
-    padding: 0,
-    borderRadius: 8,
-    marginTop: 2,
-    justifyContent: 'center'
+  recommendationText: { 
+    fontSize: 14, 
+    color: "#444" 
+  },
+  button: { 
+    height: 60, 
+    width: '100%', 
+    backgroundColor: '#4caf4fd4', 
+    borderRadius: 8, 
+    marginTop: 4, 
+    justifyContent: 'center' 
+  },
+  button1: { 
+    height: 60, 
+    width: "100%", 
+    backgroundColor: '#2195f3e4', 
+    borderRadius: 8, 
+    marginTop: 4, 
+    justifyContent: 'center' 
+  },
+  button2: { 
+    height: 60, 
+    width: "100%", 
+    backgroundColor: '#cfa51edc', 
+    borderRadius: 8, 
+    marginTop: 4, 
+    justifyContent: 'center' 
   },
   buttonText: { 
-    color: '#fefefeff',
+    color: '#fefefeff', 
     fontWeight: 'bold', 
-    fontSize: 25,
+    fontSize: 25, 
     textAlign: 'center' 
   },
   backText: { 
     color: '#fefefeff', 
-    fontSize: 20,
-    fontWeight: 'bold'
+    fontSize: 20, 
+    fontWeight: 'bold' 
   },
   backButton: { 
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-    marginBottom: 25,
-    width: '100%',
-    backgroundColor: '#2195f39e',
-    padding: 5,
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    height: 50, 
+    marginBottom: 25, 
+    width: '100%', 
+    backgroundColor: '#2195f39e', 
+    padding: 5, 
     borderRadius: 12,
-    position: 'relative',
-    alignSelf: 'flex-end'
+    marginTop: 4 
   }
 });
 

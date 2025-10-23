@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, PixelRatio } from 'react-native';
 import I18n from '../src/locales/i18n';
 import { Dimensions } from 'react-native';
 
+const scaleFont = (size) => size * PixelRatio.getFontScale();
 const { width, height } = Dimensions.get('window');
 const HomeScreen = ({ navigation }) => {
   return (
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     padding: 10,
     backgroundColor: 'rgba(255,255,255,0.8)',
     paddingHorizontal: width * 0.02,
@@ -60,40 +61,42 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   headerImage: { 
-    width: '100%',
-    height: height * 0.4,
-    marginBottom: 5, 
+    width: '90%',
+    flex: 0.7,
+    marginBottom: height * 0.03,
     resizeMode: 'contain',
-    borderRadius: 12
+    padding: 0
   },
   buttonsContainer: {
     width: '100%'
   }, 
   title: {
-    fontSize: width * 0.08, 
+    fontSize: scaleFont(33), 
     fontWeight: 'bold', 
     marginTop: height * 0.03, 
     textAlign: 'center',
-    color: '#634040ff' 
+    color: '#634040ff',
+    padding: 0 
   },
   title2: {
-    fontSize: width * 0.10,
+    fontSize: scaleFont(44),
     fontWeight: 'bold', 
-    marginTop: height * 0.05, 
+    marginTop: height * 0.03, 
     textAlign: 'center',
-    color: '#634040ff' 
+    color: '#634040ff',
+    padding: 0
   },
   bigButton: {
     width: '100%',
     backgroundColor: '#2195f3ce',
-    paddingVertical: height * 0.03,
+    paddingVertical: height * 0.02,
     borderRadius: 12,
     marginBottom: height * 0.02
   },
   bigButton2: {
     width: '100%',
     backgroundColor: '#4caf4fd8',
-    paddingVertical: height * 0.03,
+    paddingVertical: height * 0.02,
     borderRadius: 12,
     marginBottom: height * 0.02
   },
