@@ -71,7 +71,7 @@ const AddPetScreen = ({ navigation }) => {
           onPress={() => setSpeciesModalVisible(true)}
         >
           <Text style={{ fontSize: 16 }}>
-            {species ? species : I18n.t("pet_species")}
+            {species ? speciesOptions.find((item) => item.value === species)?.label : I18n.t("pet_species")}
           </Text>
         </TouchableOpacity>
 

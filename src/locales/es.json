@@ -54,6 +54,8 @@
   "unknown_species": "No hay datos para esta especie.",
   "months": "meses",
   "years": "años",
+  "month": "mes",
+  "year": "año",
   "and": "y",
   "invalid_weight": "Peso inválido, Por favor ingresa un número válido.",
   "update_weight": "Peso actualizado.",

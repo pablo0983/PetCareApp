@@ -2,7 +2,7 @@
   "expo": {
     "name": "PetCareApp",
     "slug": "PetCareApp",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.pablopetry.petcareapp",
-      "buildNumber": "7",
+      "buildNumber": "8",
       "locales": {
         "es": "./ios/PetCareApp/es.lproj/InfoPlist.strings",
         "en": "./ios/PetCareApp/en.lproj/InfoPlist.strings",
@@ -30,7 +30,7 @@
     },
     "android": {
       "package": "com.pablopetry.PetCareApp",
-      "versionCode": 10,
+      "versionCode": 11,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"

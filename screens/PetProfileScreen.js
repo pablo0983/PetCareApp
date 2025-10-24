@@ -60,12 +60,15 @@ const PetProfileScreen = ({ route, navigation }) => {
     months += 12;
   }
 
+  const yearLabel = years === 1 ? I18n.t("year") : I18n.t("years");
+  const monthLabel = months === 1 ? I18n.t("month") : I18n.t("months");
+
   if (years < 1) {
-    return `${months} ${I18n.t("months")}`;
+    return `${months} ${monthLabel}`;
   } else if (months === 0) {
-    return `${years} ${I18n.t("years")}`;
+    return `${years} ${yearLabel}`;
   } else {
-    return `${years} ${I18n.t("years")} ${I18n.t("and")} ${months} ${I18n.t("months")}`;
+    return `${years} ${yearLabel} ${I18n.t("and")} ${months} ${monthLabel}`;
   }
 };
 
@@ -80,7 +83,8 @@ const PetProfileScreen = ({ route, navigation }) => {
   };
 
   const getFoodRecommendation = (species, weight, ageDisplay, birthDate) => {
-    if (!weight || !birthDate) return I18n.t("missing");
+    if (weight === null || weight === undefined || weight === "" || !birthDate) 
+      return I18n.t("missing");
 
     let emoji = '';
     const birth = new Date(birthDate);
@@ -131,10 +135,12 @@ const PetProfileScreen = ({ route, navigation }) => {
   }, [newWeight, pet]);
 
   const saveWeight = async () => {
-    const weightValue = parseFloat(newWeight);
-    if (!newWeight || isNaN(weightValue)) {
+    const normalizedWeight = newWeight.replace(',', '.');
+    const weightValue = parseFloat(normalizedWeight);
+
+    if (!normalizedWeight || isNaN(weightValue)) {
       Alert.alert("⚠️ " + I18n.t("invalid_weight"));
-      return;
+     return;
     }
     const updatedPet = { ...pet, weight: weightValue };
     await updatePet(petId, updatedPet);
