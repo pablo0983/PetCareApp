@@ -34,7 +34,7 @@
   "age": "Edad",
   "ch_im": "Cambiar foto",
   "add_incident": "Agregar Incidencia Médica",
-  "view_history": "Ver Historial Médico",
+  "view_history": "Historia Médica",
   "missing": "Faltan datos para calcular la recomendación.",
   "puppy": "Cachorro: comida frecuente y poca cantidad (consultar veterinario).",
   "small_Dog_Food": "Comida: 90-110 g/día (2 comidas).",
@@ -61,6 +61,7 @@
   "update_weight": "Peso actualizado.",
   "loading": "Cargando...",
   "nutritional": "Recomendación de alimentación diaria",
+  "location": "Mi Ubicación",
 
   "medical_history": "Historial Médico",
   "no_records": "No hay incidencias médicas registradas 🐾",
@@ -70,6 +71,8 @@
   "description": "📋 Descripción",
   "vet": "👨‍⚕️ Veterinario",
   "export_pdf": "📄 Exportar a PDF",
+  "no_data": "Sin datos, No hay incidencias para exportar 🐾",
+  "error_pdf": "Error, No se pudo generar el PDF.",
 
   "vac": "Vacuna",
   "dewo": "Desparasitación",

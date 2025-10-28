@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, TextInput, StyleSheet, TouchableOpacity, Platform, View, ImageBackground, Image, ScrollView, Alert, Modal } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system'; 
 import { addPet } from '../services/localStorage';
 import I18n from '../src/locales/i18n.js'; 
 
@@ -31,25 +32,56 @@ const AddPetScreen = ({ navigation }) => {
   const handleConfirm = (date) => { setBirthDate(date); hideDatePicker(); };
   
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
-    if (!result.canceled) setImage(result.assets[0].uri);
-  };
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    quality: 1,
+  });
+
+  if (!result.canceled) {
+    const sourceUri = result.assets[0].uri;
+    const fileName = sourceUri.split('/').pop();
+    const petsDir = `${FileSystem.documentDirectory}pets`;
+
+    try {
+      // 🔹 Crear carpeta "pets" si no existe
+      await FileSystem.makeDirectoryAsync(petsDir, { intermediates: true });
+
+      const destPath = `${petsDir}/${Date.now()}_${fileName}`; // nombre único
+      // 🔹 Copiar imagen a la carpeta permanente
+      await FileSystem.copyAsync({ from: sourceUri, to: destPath });
+
+      // 🔹 Guardar la URI permanente en el estado correcto
+      setImage(destPath);
+    } catch (err) {
+      console.error("Error copiando imagen:", err);
+    }
+  }
+};
+
 
   const handleSave = async () => {
-    if (!name) return;
-    const newPet = {
-      name, species, breed, gender, weight, notes,
-      birthDate: birthDate.toISOString(),
-      image,
-    };
-    await addPet(newPet);
-    Alert.alert(I18n.t("save_sus") + " 🐾");
-    navigation.goBack();
+  if (!name) {
+    Alert.alert("⚠️", I18n.t("name_required"));
+    return;
+  }
+
+  const newPet = {
+    name,
+    species,
+    breed,
+    gender,
+    weight,
+    notes,
+    birthDate: birthDate.toISOString(),
+    image, 
   };
+
+  await addPet(newPet);
+  Alert.alert(I18n.t("save_sus") + " 🐾");
+  navigation.goBack();
+};
+
 
   return (
     <ImageBackground

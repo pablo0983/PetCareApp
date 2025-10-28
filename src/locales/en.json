@@ -36,7 +36,7 @@
   "age": "Age",
   "ch_im": "Change photo",
   "add_incident": "Add Medical Incident",
-  "view_history": "View Medical History",
+  "view_history": "Medical History",
   "missing": "Data is missing to calculate the recommendation.",
   "puppy": "Puppy: frequent meals in small quantities (consult your veterinarian).",
   "small_Dog_Food": "Food: 90-110 g/day (2 meals).",
@@ -63,6 +63,7 @@
   "update_weight": "Updated weight.",
   "loading": "Loading...",
   "nutritional": "Daily nutritional recommendation",
+  "location": "My Location",
 
   "medical_history": "Medical History",
   "no_records": "No medical incidents recorded 🐾",
@@ -72,6 +73,8 @@
   "description": "📋 Description",
   "vet": "👨‍⚕️ Veterinarian",
   "export_pdf": "📄 Export to PDF",
+  "no_data": "No data, No incidents to export 🐾",
+  "error_pdf": "Error, PDF could not be generated.",
 
   "vac": "Vaccination",
   "dewo": "Deworming",

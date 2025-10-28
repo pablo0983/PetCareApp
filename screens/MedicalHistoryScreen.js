@@ -3,15 +3,19 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, ImageBackground, Im
 import { getMedicalIncidents } from '../services/localStorage';
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 import I18n from '../src/locales/i18n.js'; 
 
 const MedicalHistoryScreen = ({ route, navigation }) => {
   const { petId } = route.params;
   const [incidents, setIncidents] = useState([]);
 
-  useEffect(() => {
+  useFocusEffect(
+  useCallback(() => {
     loadIncidents();
-  }, []);
+  }, [])
+);
 
   const loadIncidents = async () => {
     const data = await getMedicalIncidents(petId);
@@ -19,7 +23,7 @@ const MedicalHistoryScreen = ({ route, navigation }) => {
   };
   const generatePDF = async () => {
   if (incidents.length === 0) {
-    Alert.alert("Sin datos", "No hay incidencias para exportar 🐾");
+    Alert.alert(I18n.t("no_data"));
     return;
   }
 
@@ -73,12 +77,11 @@ const MedicalHistoryScreen = ({ route, navigation }) => {
   try {
     // 🖨️ Generar el PDF
     const { uri } = await Print.printToFileAsync({ html: htmlContent });
-    console.log("✅ PDF generado en:", uri);
 
     // 📤 Compartir o imprimir
     await Sharing.shareAsync(uri);
   } catch (error) {
-    Alert.alert("Error", "No se pudo generar el PDF.");
+    Alert.alert(I18n.t("error_pdf"));
   }
 };
 
@@ -121,8 +124,14 @@ const MedicalHistoryScreen = ({ route, navigation }) => {
           />
         )}
         <View style={styles.buttons}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('AddIncidentScreen', { petId })}
+          >
+            <Text style={styles.buttonText}>🩹{I18n.t("add_incident")}</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.pdfButton} onPress={generatePDF}>
-            <Text style={styles.pdfText}>{I18n.t("export_pdf")}</Text>
+            <Text style={styles.buttonText}>{I18n.t("export_pdf")}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Text style={styles.backText}>{I18n.t("back")}</Text>
@@ -143,7 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: "space-between",
     padding: 20,
     backgroundColor: '#d5dc70e4',
     alignItems: 'center', 
@@ -161,7 +170,8 @@ const styles = StyleSheet.create({
     marginTop: 50 
   },
   buttons: {
-    width: "100%"
+    width: "100%",
+    justifyContent: "flex-end",
   },
   card: { 
     padding: 8, 
@@ -201,14 +211,21 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10 
   },
-  pdfButton: {
-  width: '100%',
-  backgroundColor: '#4caf50',
-  padding: 15,
-  borderRadius: 12,
-  marginBottom: 20
+  button: {
+    width: '100%',
+    backgroundColor: '#67659cff',
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 5
   },
-  pdfText: {
+  pdfButton: {
+    width: '100%',
+    backgroundColor: '#4caf50',
+    padding: 15,
+    borderRadius: 12,
+    marginBottom: 5
+  },
+  buttonText: {
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
@@ -218,7 +235,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
-    marginBottom: 25,
+    marginBottom: 8,
     width: '100%',
     backgroundColor: '#2195f39e',
     padding: 5,

@@ -228,13 +228,6 @@ const PetProfileScreen = ({ route, navigation }) => {
         </View>
 
         <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('AddIncidentScreen', { petId })}
-        >
-          <Text style={styles.buttonText}>🩹{I18n.t("add_incident")}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
           style={styles.button1}
           onPress={() => navigation.navigate('MedicalHistoryScreen', { petId })}
         >
@@ -246,6 +239,12 @@ const PetProfileScreen = ({ route, navigation }) => {
           onPress={() => navigation.navigate('Reminders', { petId })}
         >
           <Text style={styles.buttonText}>⏱️ {I18n.t("reminders")}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('TagTrackerScreen', { petId })}
+        >
+          <Text style={styles.buttonText}>🕵️‍♂️ {I18n.t("location")}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>

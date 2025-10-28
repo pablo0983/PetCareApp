@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/icon.png",
+      "image": "./assets/pata.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -34,7 +34,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -43,6 +46,10 @@
       "eas": {
         "projectId": "daafa29d-29fd-4b32-8b99-be3cbe6833ad"
       }
-    }
+    },
+    "plugins": [
+      "expo-barcode-scanner"
+    ],
+    "owner": "pablopetry"
   }
 }
