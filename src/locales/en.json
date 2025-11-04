@@ -64,6 +64,16 @@
   "loading": "Loading...",
   "nutritional": "Daily nutritional recommendation",
   "location": "My Location",
+  "location_permission_denied": "Location permission denied. Simulated coordinates will be used.",
+  "no_location": "Error, there is no location for this tag.",
+  "no_camera": "No permission to use the camera.",
+  "unknownNFC": "Unknown NFC",
+  "close_map": "Close Map",
+  "pet_tracker": "Pet tracker",
+  "scan_qr": "Scan QR code",
+  "read_nfc": "Read NFC",
+  "tracked": "Tracked tags",
+  "no_tags": "There are no tags registered",
 
   "medical_history": "Medical History",
   "no_records": "No medical incidents recorded 🐾",
@@ -95,7 +105,7 @@
   "clean": "Clean",
   "prev_sig": "Signature preview:",
   "save_histo": "Save to history",
-  "select_type": "Select type of incident..."
-  
+  "select_type": "Select type of incident",
+  "select": "Select..."
   
 }

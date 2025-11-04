@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system'; 
 import { addPet } from '../services/localStorage';
 import I18n from '../src/locales/i18n.js'; 
+import { t } from "../src/utils/permissionsText.js";
 
 const AddPetScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -32,32 +33,38 @@ const AddPetScreen = ({ navigation }) => {
   const handleConfirm = (date) => { setBirthDate(date); hideDatePicker(); };
   
   const pickImage = async () => {
-  const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    allowsEditing: true,
-    quality: 1,
-  });
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-  if (!result.canceled) {
-    const sourceUri = result.assets[0].uri;
-    const fileName = sourceUri.split('/').pop();
-    const petsDir = `${FileSystem.documentDirectory}pets`;
-
-    try {
-      // 🔹 Crear carpeta "pets" si no existe
-      await FileSystem.makeDirectoryAsync(petsDir, { intermediates: true });
-
-      const destPath = `${petsDir}/${Date.now()}_${fileName}`; // nombre único
-      // 🔹 Copiar imagen a la carpeta permanente
-      await FileSystem.copyAsync({ from: sourceUri, to: destPath });
-
-      // 🔹 Guardar la URI permanente en el estado correcto
-      setImage(destPath);
-    } catch (err) {
-      console.error("Error copiando imagen:", err);
+    if (status !== "granted") {
+      alert(t("gallery"));
+      return;
     }
-  }
-};
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const sourceUri = result.assets[0].uri;
+      const fileName = sourceUri.split('/').pop();
+      const petsDir = `${FileSystem.documentDirectory}pets`;
+
+      try {
+        // 🔹 Crear carpeta "pets" si no existe
+        await FileSystem.makeDirectoryAsync(petsDir, { intermediates: true });
+
+        const destPath = `${petsDir}/${Date.now()}_${fileName}`; // nombre único
+        // 🔹 Copiar imagen a la carpeta permanente
+        await FileSystem.copyAsync({ from: sourceUri, to: destPath });
+
+        // 🔹 Guardar la URI permanente en el estado correcto
+        setImage(destPath);
+      } catch (err) {
+        console.error("Error copiando imagen:", err);
+      }
+    }
+  };
 
 
   const handleSave = async () => {
@@ -334,7 +341,7 @@ const styles = StyleSheet.create({
     color: 'white', 
     fontSize: 22, 
     textAlign: 'center', 
-    ontWeight: 'bold' 
+    fontWeight: 'bold' 
   },
   backButton: { 
     width: '100%', 

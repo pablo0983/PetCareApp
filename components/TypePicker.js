@@ -15,7 +15,7 @@ const TypePicker = ({ value, onValueChange, options }) => {
   const [open, setOpen] = useState(false);
 
   const label = useMemo(
-    () => (options.find((o) => o.value === value) || {}).label || "Seleccionar...",
+    () => (options.find((o) => o.value === value) || {}).label || I18n.t("select"),
     [options, value]
   );
 
@@ -34,7 +34,7 @@ const TypePicker = ({ value, onValueChange, options }) => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Seleccionar tipo de incidencia</Text>
+              <Text style={styles.modalTitle}>{I18n.t("select_type")}</Text>
 
               <View style={styles.pickerWrap}>
                 <Picker
@@ -56,7 +56,7 @@ const TypePicker = ({ value, onValueChange, options }) => {
 
               <View style={styles.modalButtons}>
                 <TouchableOpacity style={styles.modalBtn} onPress={() => setOpen(false)}>
-                  <Text style={styles.modalBtnText}>Cancelar</Text>
+                  <Text style={styles.modalBtnText}>{I18n.t("cancel")}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.modalBtn, styles.modalBtnPrimary]} onPress={() => setOpen(false)}>

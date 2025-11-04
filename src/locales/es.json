@@ -62,6 +62,16 @@
   "loading": "Cargando...",
   "nutritional": "Recomendación de alimentación diaria",
   "location": "Mi Ubicación",
+  "location_permission_denied": "Permiso de ubicación denegado. Se usarán coordenadas simuladas.",
+  "no_location": "Error, no hay ubicación para este tag.",
+  "no_camera": "No hay permiso para usar la cámara.",
+  "unknownNFC": "NFC desconocido",
+  "close_map": "Cerrar Mapa",
+  "pet_tracker": "Rastreador de mascotas",
+  "scan_qr": "Escanear QR",
+  "read_nfc": "Leer NFC",
+  "tracked": "Tags rastreados",
+  "no_tags": "No hay tags registrados",
 
   "medical_history": "Historial Médico",
   "no_records": "No hay incidencias médicas registradas 🐾",
@@ -93,5 +103,6 @@
   "clean": "Limpiar",
   "prev_sig": "Vista previa firma:",
   "save_histo": "Guardar en historial",
-  "select_type": "Seleccionar tipo de incidencia..."
+  "select_type": "Seleccionar tipo de incidencia",
+  "select": "Seleccionar..."
 }

@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import Signature from "react-native-signature-canvas";
 import TypePicker from "../components/TypePicker";
 import I18n from '../src/locales/i18n';
+import { t} from "..src/utils/permissionsText";
 
 const AddIncidentScreen = ({ route, navigation }) => {
   const { petId } = route.params;
@@ -64,7 +65,7 @@ const cancelIOSDate = () => {
   try {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert(I18n.t("alert_cam") + " 📷");
+      Alert.alert("📷", t("camera"));
       return;
     }
 

@@ -51,7 +51,7 @@ const TagTrackerScreen = ({ navigation }) => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     setLocationPermission(status === 'granted');
     if (status !== 'granted') {
-      Alert.alert("⚠️", "Permiso de ubicación denegado. Se usarán coordenadas simuladas.");
+      Alert.alert("⚠️ " + I18n.t("location_permission_denied"));
     }
   };
 
@@ -68,7 +68,7 @@ const TagTrackerScreen = ({ navigation }) => {
 
   const openMapFull = (tag) => {
     if (!tag?.location) {
-      Alert.alert("Error", "No hay ubicación para este tag.");
+      Alert.alert(I18n.t("no_location"));
       return;
     }
     setSelectedTag(tag);
@@ -102,7 +102,7 @@ const TagTrackerScreen = ({ navigation }) => {
 
   const handleScanQR = () => {
     if (!hasCameraPermission) {
-      Alert.alert("No hay permiso para usar la cámara");
+      Alert.alert(I18n.t("no_camera"));
       return;
     }
     setInputType("QR");
@@ -120,7 +120,7 @@ const TagTrackerScreen = ({ navigation }) => {
       setInputType("NFC");
       await NfcManager.requestTechnology(NfcTech.Ndef);
       const tag = await NfcManager.getTag();
-      setInputValue(tag.id || "NFC desconocido");
+      setInputValue(tag.id || I18n.t("unknownNFC"));
       confirmTagInput();
       NfcManager.cancelTechnologyRequest();
     } catch (ex) {
@@ -141,7 +141,7 @@ const TagTrackerScreen = ({ navigation }) => {
           style={styles.fullScreenCloseButton} 
           onPress={() => setScanningQR(false)}
         >
-          <Text style={styles.buttonText}>Cancelar</Text>
+          <Text style={styles.buttonText}>{I18n.t("cancel")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -166,7 +166,7 @@ const TagTrackerScreen = ({ navigation }) => {
           style={styles.fullScreenCloseButton} 
           onPress={() => setShowMapFull(false)}
         >
-          <Text style={styles.buttonText}>Cerrar Mapa</Text>
+          <Text style={styles.buttonText}>{I18n.t("close_map")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -180,19 +180,19 @@ const TagTrackerScreen = ({ navigation }) => {
       resizeMode="cover"
     >
       <View style={styles.container}>
-        <Text style={styles.title}>📍 Tag Tracker</Text>
+        <Text style={styles.title}>📍 {I18n.t("pet_tracker")}</Text>
 
         <TouchableOpacity style={styles.button} onPress={handleScanQR}>
-          <Text style={styles.buttonText}>📷 Escanear QR</Text>
+          <Text style={styles.buttonText}>📷 {I18n.t("scan_qr")}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={handleScanNFC}>
-          <Text style={styles.buttonText}>📡 Leer NFC</Text>
+          <Text style={styles.buttonText}>📡 {I18n.t("read_nfc")}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.subtitle}>Tags rastreados:</Text>
+        <Text style={styles.subtitle}>{I18n.t("tracked")}:</Text>
 
-        {tags.length === 0 && <Text style={{ color: "#fff", fontSize: 18 }}>No hay tags registrados</Text>}
+        {tags.length === 0 && <Text style={{ color: "#fff", fontSize: 18 }}>{I18n.t("no_tags")}</Text>}
 
         <FlatList
           data={tags}
@@ -235,19 +235,94 @@ const TagTrackerScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  background: { flex: 1, width: "100%", height: "100%" },
-  container: { flex:1, padding: 20, alignItems: "center", justifyContent: "flex-start", backgroundColor: "#8881c9da" },
-  title: { fontSize: 36, fontWeight: "bold", marginBottom: 20, color: "#634040ff", marginTop: 20 },
-  subtitle: { fontSize: 28, fontWeight: "bold", marginTop: 20, marginBottom: 10, color: "#634040ff" },
-  button: { width: "100%", backgroundColor: "#4caf4fd8", paddingVertical: 18, borderRadius: 12, marginBottom: 12 },
-  buttonText: { color: "#fff", fontSize: 22, textAlign: "center", fontWeight: "bold" },
-  tagList: { width: "100%" },
-  tagItem: { width: "100%", backgroundColor: "#28608ece", paddingVertical: 15, borderRadius: 12, marginBottom: 15, justifyContent: "center", textAlign: "center", overflow: "hidden" },
-  tagText: { color: "#fff", fontSize: 18, textAlign: "center", marginBottom: 5 },
-  miniMap: { width: "100%", height: 100, borderRadius: 12 },
-  fullScreenCloseButton: { position: "absolute", bottom: 30, left: 20, right: 20, backgroundColor: "#7d7271eb", padding: 15, borderRadius: 12 },
-  backText: { color: '#fefefeff', fontSize: 20, fontWeight: 'bold' },
-  backButton: { alignItems: 'center', justifyContent: 'center', height: 50, marginBottom: 25, width: '100%', backgroundColor: '#2195f39e', padding: 5, borderRadius: 12, marginTop: 4 },
+  background: { 
+    flex: 1, 
+    width: "100%", 
+    height: "100%" 
+  },
+  container: { 
+    flex:1, 
+    padding: 20, 
+    alignItems: "center", 
+    justifyContent: "flex-start", 
+    backgroundColor: "#8881c9da" 
+  },
+  title: { 
+    fontSize: 36, 
+    fontWeight: "bold", 
+    marginBottom: 20, 
+    color: "#634040ff",
+    marginTop: 20 
+  },
+  subtitle: { 
+    fontSize: 28, 
+    fontWeight: "bold", 
+    marginTop: 20, 
+    marginBottom: 10, 
+    color: "#634040ff" 
+  },
+  button: { 
+    width: "100%", 
+    backgroundColor: "#4caf4fd8", 
+    paddingVertical: 18, 
+    borderRadius: 12, 
+    marginBottom: 12 
+  },
+  buttonText: { 
+    color: "#fff", 
+    fontSize: 22, 
+    textAlign: "center", 
+    fontWeight: "bold" 
+  },
+  tagList: { 
+    width: "100%" 
+  },
+  tagItem: { 
+    width: "100%", 
+    backgroundColor: "#28608ece", 
+    paddingVertical: 15, 
+    borderRadius: 12, 
+    marginBottom: 15, j,
+    justifyContent: "center", 
+    textAlign: "center", 
+    overflow: "hidden" 
+  },
+  tagText: { 
+    color: "#fff", 
+    fontSize: 18, 
+    textAlign: "center", 
+    marginBottom: 5 
+  },
+  miniMap: { 
+    width: "100%", 
+    height: 100, 
+    borderRadius: 12 
+  },
+  fullScreenCloseButton: { 
+    position: "absolute", 
+    bottom: 30, 
+    left: 20, 
+    right: 20, 
+    backgroundColor: "#7d7271eb", 
+    padding: 15, 
+    borderRadius: 12 
+  },
+  backText: { 
+    color: '#fefefeff', 
+    fontSize: 20, 
+    fontWeight: 'bold' 
+  },
+  backButton: { 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    height: 50, 
+    marginBottom: 25, 
+    width: '100%', 
+    backgroundColor: '#2195f39e', 
+    padding: 5, 
+    borderRadius: 12, 
+    marginTop: 4 
+  },
 });
 
 export default TagTrackerScreen;

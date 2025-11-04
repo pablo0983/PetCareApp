@@ -1,55 +1,45 @@
 {
-  "expo": {
-    "name": "PetCareApp",
-    "slug": "PetCareApp",
-    "version": "3.0.1",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/pata.png",
-      "resizeMode": "contain",
+  "name": "PetCareApp",
+  "slug": "petcare-app",
+  "version": "3.0.2",
+  "orientation": "portrait",
+  "icon": "./assets/icon.png",
+  "userInterfaceStyle": "light",
+  "splash": {
+    "image": "./assets/pata.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "ios": {
+    "supportsTablet": false,
+    "bundleIdentifier": "com.pablopetry.petcareapp",
+    "buildNumber": "9",
+    "infoPlist": {
+      "ITSAppUsesNonExemptEncryption": false,
+      "NSCameraUsageDescription": "Necesitamos acceso a la cámara para tomar fotos",
+      "NSPhotoLibraryUsageDescription": "Necesitamos acceder a la galería",
+      "NSPhotoLibraryAddUsageDescription": "Necesitamos guardar fotos"
+    }
+  },
+  "android": {
+    "package": "com.pablopetry.PetCareApp",
+    "versionCode": 11,
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/icon.png",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.pablopetry.petcareapp",
-      "buildNumber": "8",
-      "locales": {
-        "es": "./ios/PetCareApp/es.lproj/InfoPlist.strings",
-        "en": "./ios/PetCareApp/en.lproj/InfoPlist.strings",
-        "pt": "./ios/PetCareApp/pt.lproj/InfoPlist.strings"
-      },
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false,
-        "NSCameraUsageDescription": "Necesitamos acceso a la cámara para adjuntar imágenes en incidentes.",
-        "NSPhotoLibraryAddUsageDescription": "Necesitamos permiso para guardar la firma como imagen en tu dispositivo.",
-        "NSPhotoLibraryUsageDescription": "Necesitamos acceso a tu galería para adjuntar o guardar imágenes relacionadas con el incidente."
-      }
-    },
-    "android": {
-      "package": "com.pablopetry.PetCareApp",
-      "versionCode": 11,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "permissions": [
-        "android.permission.CAMERA"
-      ]
-    },
-    "web": {
-      "favicon": "./assets/icon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "daafa29d-29fd-4b32-8b99-be3cbe6833ad"
-      }
-    },
-    "plugins": [
-      "expo-barcode-scanner"
-    ],
-    "owner": "pablopetry"
-  }
+    "permissions": [
+      "android.permission.CAMERA",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.READ_EXTERNAL_STORAGE"
+    ]
+  },
+  "web": {
+    "favicon": "./assets/icon.png"
+  },
+  "plugins": [
+    "expo-barcode-scanner",
+    ["react-native-nfc-manager", {}]
+  ],
+  "owner": "pablopetry"
 }
