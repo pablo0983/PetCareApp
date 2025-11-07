@@ -1,7 +1,7 @@
 {
   "name": "PetCareApp",
   "slug": "petcare-app",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
   "userInterfaceStyle": "light",
@@ -18,28 +18,34 @@
       "ITSAppUsesNonExemptEncryption": false,
       "NSCameraUsageDescription": "Necesitamos acceso a la cámara para tomar fotos",
       "NSPhotoLibraryUsageDescription": "Necesitamos acceder a la galería",
-      "NSPhotoLibraryAddUsageDescription": "Necesitamos guardar fotos"
+      "NSPhotoLibraryAddUsageDescription": "Necesitamos guardar fotos",
+      "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone",
+      "UIBackgroundModes": ["remote-notification"]
     }
   },
   "android": {
     "package": "com.pablopetry.PetCareApp",
-    "versionCode": 11,
+    "versionCode": 13,
     "adaptiveIcon": {
       "foregroundImage": "./assets/icon.png",
       "backgroundColor": "#ffffff"
     },
     "permissions": [
       "android.permission.CAMERA",
-      "android.permission.WRITE_EXTERNAL_STORAGE",
-      "android.permission.READ_EXTERNAL_STORAGE"
+      "android.permission.NFC"
     ]
   },
   "web": {
     "favicon": "./assets/icon.png"
   },
   "plugins": [
-    "expo-barcode-scanner",
-    ["react-native-nfc-manager", {}]
+    ["react-native-nfc-manager", {}],
+    "expo-localization"
   ],
-  "owner": "pablopetry"
+  "owner": "pablopetry",
+  "extra": {
+    "eas": {
+      "projectId": "ea93775d-daf9-43e1-8d95-4d840d940934"
+    }
+  }
 }

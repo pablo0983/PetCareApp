@@ -6,7 +6,7 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import I18n from '../src/locales/i18n';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera, CameraView } from 'expo-camera';
 import * as Location from 'expo-location';
 import NfcManager, { NfcTech } from 'react-native-nfc-manager';
 
@@ -95,7 +95,7 @@ const TagTrackerScreen = ({ navigation }) => {
   // QR Scanner
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasCameraPermission(status === 'granted');
     })();
   }, []);
@@ -110,6 +110,7 @@ const TagTrackerScreen = ({ navigation }) => {
   };
 
   const onBarCodeScanned = ({ data }) => {
+    setScanningQR(false);
     setInputValue(data);
     confirmTagInput();
   };
@@ -133,9 +134,12 @@ const TagTrackerScreen = ({ navigation }) => {
   if (scanningQR) {
     return (
       <View style={{ flex:1 }}>
-        <BarCodeScanner
+        <CameraView
           onBarCodeScanned={onBarCodeScanned}
           style={{ flex:1 }}
+          barcodeScannerSettings={{
+            barcodeTypes: ["qr"]
+          }}
         />
         <TouchableOpacity 
           style={styles.fullScreenCloseButton} 
@@ -282,7 +286,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#28608ece", 
     paddingVertical: 15, 
     borderRadius: 12, 
-    marginBottom: 15, j,
+    marginBottom: 15,
     justifyContent: "center", 
     textAlign: "center", 
     overflow: "hidden" 

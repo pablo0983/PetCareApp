@@ -10,7 +10,7 @@ import PetProfileScreen from './screens/PetProfileScreen';
 import AddIncidentScreen from './screens/AddIncidentScreen';
 import MedicalHistoryScreen from './screens/MedicalHistoryScreen';
 import RemindersScreen from './screens/RemindersScreen';
-//import TagTrackerScreen from './screens/TagTrackerScreen';
+import TagTrackerScreen from './screens/TagTrackerScreen';
 import * as Notifications from "expo-notifications";
 import * as Localization from 'expo-localization';
 import I18n from './src/locales/i18n';
@@ -64,7 +64,7 @@ export default function App() {
         <Stack.Screen name="AddIncidentScreen" component={AddIncidentScreen} />
         <Stack.Screen name="MedicalHistoryScreen" component={MedicalHistoryScreen} />
         <Stack.Screen name="Reminders" component={RemindersScreen} />
-        
+        <Stack.Screen name="TagTrackerScreen" component={TagTrackerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,11 +1,18 @@
 import * as Localization from "expo-localization";
 
-// Detecta idioma del sistema
-const lang = Localization.locale.startsWith("pt")
-  ? "pt"
-  : Localization.locale.startsWith("en")
-  ? "en"
-  : "es"; // default español
+// Obtiene el idioma del sistema (seguro y compatible)
+const locale =
+  Localization?.locales?.[0] || // Nuevo formato (SDK 49+)
+  Localization?.locale ||       // Compatibilidad con SDK anteriores
+  "es";                         // Valor por defecto
+
+// Normaliza el código de idioma (ej. "es-UY" → "es")
+const languageCode = locale.split("-")[0].toLowerCase();
+
+// Determina el idioma base de la app
+const lang = ["es", "en", "pt"].includes(languageCode)
+  ? languageCode
+  : "es"; // Español por defecto
 
 const permissionsText = {
   camera: {
