@@ -1,7 +1,7 @@
 {
   "name": "PetCareApp",
   "slug": "petcare-app",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
   "userInterfaceStyle": "light",
@@ -13,7 +13,8 @@
   "ios": {
     "supportsTablet": false,
     "bundleIdentifier": "com.pablopetry.petcareapp",
-    "buildNumber": "9",
+    "buildNumber": "11",
+    "entitlements": {},
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
       "NSCameraUsageDescription": "Necesitamos acceso a la cámara para tomar fotos",
@@ -25,14 +26,21 @@
   },
   "android": {
     "package": "com.pablopetry.PetCareApp",
-    "versionCode": 13,
+    "versionCode": 15,
     "adaptiveIcon": {
       "foregroundImage": "./assets/icon.png",
       "backgroundColor": "#ffffff"
     },
     "permissions": [
       "android.permission.CAMERA",
-      "android.permission.NFC"
+      "android.permission.ACCESS_FINE_LOCATION",
+      "android.permission.ACCESS_COARSE_LOCATION"
+    ],
+    "intentFilters": [
+      {
+        "action": "android.nfc.action.TAG_DISCOVERED",
+        "category": ["android.intent.category.DEFAULT"]
+      }
     ]
   },
   "web": {

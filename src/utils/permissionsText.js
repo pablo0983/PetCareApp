@@ -30,6 +30,14 @@ const permissionsText = {
     en: "We need access to save your pet's photos to your gallery.",
     pt: "Precisamos salvar as fotos do seu pet na sua galeria.",
   },
+  nfc: {
+    es: "Necesitamos acceso al lector NFC para identificar etiquetas de tu mascota.",
+    en: "We need NFC access to identify your pet's tags.",
+    pt: "Precisamos de acesso NFC para identificar as etiquetas do seu pet.",
+  },
 };
 
-export const t = (key) => permissionsText[key][lang];
+export const t = (key) => {
+  const text = permissionsText[key]?.[lang];
+  return text || permissionsText[key]?.es || "Permiso requerido.";
+};

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, Platform } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 import { getPets, deletePet } from '../services/localStorage';
 import I18n from '../src/locales/i18n';
 
@@ -21,161 +23,185 @@ const PetListScreen = ({ navigation }) => {
     loadPets();
   };
 
-  // 🐾 Devuelve el emoji según la especie
   const getSpeciesEmoji = (species) => {
     if (!species) return '❓';
-    const normalized = species.toLowerCase();
-    if (normalized.includes('dog')) return '🐶';
-    if (normalized.includes('cat')) return '🐱';
-    if (normalized.includes('rabbit')) return '🐰';
-    if (normalized.includes('hamster')) return '🐹';
+    const s = species.toLowerCase();
+    if (s.includes('dog')) return '🐶';
+    if (s.includes('cat')) return '🐱';
+    if (s.includes('rabbit')) return '🐰';
+    if (s.includes('hamster')) return '🐹';
     return '🐾';
   };
 
   return (
-    <ImageBackground
-      source={require("../assets/fondodos.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
+    <View style={styles.background}>
+      
+      {/* Fondo pastel premium */}
+      <LinearGradient
+        colors={["#F8C8DC", "#B5D6FF", "#C8F7C5"]}
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      />
+
       <View style={styles.container}>
-        <View style={styles.cardContainer}>
-          <FlatList
-            data={pets}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View style={styles.card}>
-                <TouchableOpacity onPress={() => navigation.navigate('PetProfile', { petId: item.id })}>
-                  {item.image ? (
-                    <Image
-                      source={{ uri: item.image }}
-                      style={styles.image}
-                    />
-                  ) : (
-                    <View style={styles.emojiContainer}>
-                      <Text style={styles.emoji}>{getSpeciesEmoji(item.species)}</Text>
-                    </View>
-                  )}
-                </TouchableOpacity>
+        
+        <FlatList
+          data={pets}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          renderItem={({ item }) => (
+            <BlurView intensity={40} tint="light" style={styles.card}>
+              
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PetProfile', { petId: item.id })}
+                style={styles.imageWrap}
+              >
+                {item.image ? (
+                  <Image source={{ uri: item.image }} style={styles.image} />
+                ) : (
+                  <View style={styles.emojiContainer}>
+                    <Text style={styles.emoji}>{getSpeciesEmoji(item.species)}</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
 
-                <View style={styles.namecontainer}>
-                  <TouchableOpacity onPress={() => navigation.navigate('PetProfile', { petId: item.id })}>
-                    <Text
-                      adjustsFontSizeToFit={true}
-                      minimumFontScale={0.5}
-                      numberOfLines={1}
-                      allowFontScaling={true}
-                      style={styles.name}
-                    >
-                      {item.name}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+              <TouchableOpacity
+                style={styles.nameContainer}
+                onPress={() => navigation.navigate('PetProfile', { petId: item.id })}
+              >
+                <Text style={styles.name}>{item.name}</Text>
+              </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteButton}>
-                  <Text style={styles.deleteText}>🗑️</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-        </View>
+              <TouchableOpacity
+                onPress={() => handleDelete(item.id)}
+                style={styles.deleteButton}
+              >
+                <Text style={styles.deleteText}>✖</Text>
+              </TouchableOpacity>
+            </BlurView>
+          )}
+        />
 
-        {/* Botón volver */}
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backText}>{I18n.t("back")}</Text>
         </TouchableOpacity>
+
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1,
-    width: '100%',
-    height: '100%'
+    flex: 1
   },
+
+  gradient: {
+    ...StyleSheet.absoluteFillObject
+  },
+
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.93)',
-    alignItems: 'center',
-    justifyContent: 'space-between'
+    paddingTop: 40
   },
-  cardContainer: {
-    margin: 30,
-    width: '100%',
-    height: '85%',
-    display: 'flex',
-    flexDirection: 'column'
-  },
+
   card: {
-    marginTop: 10,
-    backgroundColor: '#e1f3b4c2',
-    borderBottomColor: '#39843bff',
-    borderBottomWidth: 4,
-    borderRightColor: '#39843bff',
-    borderRightWidth: 4,
-    width: '100%',
-    height: 100,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderRadius: 12
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginTop: 20,
+  padding: 14,
+  borderRadius: 20,
+
+  // 👉 iOS mantiene glass real
+  ...(Platform.OS === "ios"
+    ? {
+        backgroundColor: "rgba(255,255,255,0.32)",
+        borderWidth: 1,
+        borderColor: "rgba(255,255,255,0.55)",
+        shadowColor: "#000",
+        shadowOpacity: 0.12,
+        shadowRadius: 14,
+        shadowOffset: { width: 0, height: 4 },
+      }
+    : {
+        // 👉 Android usa glass simulado (sin borrar el fondo)
+        backgroundColor: "#F7FAFF", // similar a glass pero sin transparencia
+        borderWidth: 1,
+        borderColor: "rgba(255,255,255,0.32)",
+        elevation: 6,
+        shadowColor: "#000",
+        shadowOpacity: 0.08,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 3 },
+      }),
+},
+
+
+  imageWrap: {
+    width: 100,
+    height: "100%"
   },
+
   image: {
     width: 100,
-    height: '100%',
-    borderRadius: 12,
+    height: "100%",
+    borderRadius: 20
   },
+
   emojiContainer: {
     width: 100,
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 12,
-    backgroundColor: 'tranparent',
-  },
-  emoji: {
-    fontSize: 70,
-    padding: 0,
-  },
-  namecontainer: {
-    width: 200,
     height: "100%",
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center"
   },
+
+  emoji: {
+    fontSize: 60
+  },
+
+  nameContainer: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 15
+  },
+
   name: {
-    color: '#422626ea',
-    fontSize: 50,
-    fontStyle: 'italic',
-    fontWeight: 'bold',
+    fontSize: 32,
+    fontWeight: "700",
+    color: "#333"
   },
+
   deleteButton: {
-    height: '100%',
-    width: 50,
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: 60,
+    justifyContent: "center",
+    alignItems: "center"
   },
+
   deleteText: {
-    fontSize: 35,
+    fontSize: 32,
+    color: "#C62828",
+    fontWeight: "bold"
   },
+
   backButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-    marginBottom: 25,
-    width: '100%',
-    backgroundColor: '#2195f39e',
-    padding: 5,
-    borderRadius: 12
+    width: "100%",
+    backgroundColor: "#64B5F6",
+    alignItems: "center",
+    elevation: 3,
+    padding: 14,
+    borderRadius: 50,
+    marginTop: 6,
+    marginBottom: 20,
   },
+
   backText: {
-    color: '#fefefeff',
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
+    color: "#fff", 
+    fontSize: 18, 
+    fontWeight: "600"
+  }
 });
 
 export default PetListScreen;

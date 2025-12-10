@@ -6,6 +6,7 @@ import * as Sharing from "expo-sharing";
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import I18n from '../src/locales/i18n.js'; 
+import { LinearGradient } from "expo-linear-gradient";
 
 const MedicalHistoryScreen = ({ route, navigation }) => {
   const { petId } = route.params;
@@ -86,10 +87,11 @@ const MedicalHistoryScreen = ({ route, navigation }) => {
 };
 
   return (
-    <ImageBackground
-      source={require("../assets/fondodos.jpg")} // 🔥 agrega tu imagen aquí
+    <LinearGradient
+      colors={["#E8FFF3", "#D7F7F0", "#C2EFEA"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
       style={styles.background}
-      resizeMode="cover" // puedes usar "contain" o "stretch"
     >
       <View style={styles.container}>
         <Text style={styles.title}>{I18n.t("medical_history")}</Text>
@@ -124,12 +126,6 @@ const MedicalHistoryScreen = ({ route, navigation }) => {
           />
         )}
         <View style={styles.buttons}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('AddIncidentScreen', { petId })}
-          >
-            <Text style={styles.buttonText}>🩹{I18n.t("add_incident")}</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.pdfButton} onPress={generatePDF}>
             <Text style={styles.buttonText}>{I18n.t("export_pdf")}</Text>
           </TouchableOpacity>
@@ -138,114 +134,144 @@ const MedicalHistoryScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </ImageBackground>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: '100%',
-    height: '100%'
-    },
-  container: { 
+    width: "100%",
+    height: "100%",
+  },
+
+  container: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: "space-between",
     padding: 20,
-    backgroundColor: '#d5dc70e4',
-    alignItems: 'center', 
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.6)",
   },
-  title: { 
-    fontSize: 26, 
-    fontWeight: "bold", 
-    textAlign: "center", 
-    marginBottom: 15,
-    marginTop: 40 
+
+  title: {
+    fontSize: 30,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 20,
+    marginTop: 45,
+    color: "#2D2A32",
   },
-  empty: { 
-    textAlign: 'center', 
-    color: '#888', 
-    marginTop: 50 
+
+  empty: {
+    textAlign: "center",
+    color: "#777",
+    fontSize: 16,
+    marginTop: 50,
+    fontStyle: "italic",
   },
+
+  list: {
+    width: "100%",
+    marginTop: 10,
+  },
+
+  card: {
+    width: "100%",
+    backgroundColor: "#FFFFFFEE",
+    padding: 15,
+    borderRadius: 16,
+    marginBottom: 18,
+    flexDirection: "row",
+    alignItems: "center",
+
+    // ⭐ Sombra estilo iOS
+    shadowColor: "#000",
+    shadowOpacity: 0.07,
+    shadowRadius: 6,
+    shadowOffset: { height: 3 },
+    elevation: 3,
+
+    borderLeftWidth: 6,
+    borderLeftColor: "#6CC17E",
+  },
+
+  info: {
+    flexDirection: "column",
+    flex: 1,
+  },
+
+  productImage: {
+    width: 85,
+    height: 85,
+    borderRadius: 12,
+    marginLeft: 15,
+    borderWidth: 2,
+    borderColor: "#6CC17E",
+  },
+
+  date: {
+    fontSize: 14,
+    color: "#6A6A6A",
+    marginBottom: 4,
+  },
+
+  desc: {
+    fontSize: 17,
+    fontWeight: "500",
+    color: "#2D2A32",
+    marginBottom: 2,
+  },
+
   buttons: {
     width: "100%",
-    justifyContent: "flex-end",
+    marginTop: 10,
   },
-  card: { 
-    padding: 8, 
-    borderBottomWidth: 4, 
-    borderColor: '#258408ff',
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: 12,
-    marginTop: 20,
-    display: "flex"
-  },
-  info: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-  productImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 10,
-    marginLeft: 10,
-    borderWidth: 2,
-    borderColor: "#4caf4fff",
-  },
-  date: { 
-    fontSize: 16, 
-    color: '#070707ff' 
-  },
-  desc: { 
-    fontSize: 18,
-    fontWeight: '500',
-    fontStyle: 'italic', 
-    flex: 1 
-  },
-  list: { 
-    width: '100%',
-    marginTop: 10 
-  },
-  button: {
-    width: '100%',
-    backgroundColor: '#67659cff',
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 5
-  },
+
   pdfButton: {
-    width: '100%',
-    backgroundColor: '#4caf50',
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 5
+    alignItems: "center",
+    backgroundColor: "#1ba363d6",
+    padding: 14,
+    borderRadius: 50,
+    marginTop: 6,
+    width: "100%",
+    paddingVertical: 15,
+    marginBottom: 20,
+
+    shadowColor: "#4A90E2",
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 2,
   },
+
   buttonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center'
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "700",
+    textAlign: "center",
   },
-  backButton: { 
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-    marginBottom: 8,
-    width: '100%',
-    backgroundColor: '#2195f39e',
-    padding: 5,
-    borderRadius: 12 
+
+  backButton: {
+    alignItems: "center",
+    backgroundColor: "#2195f3ff",
+    padding: 14,
+    borderRadius: 50,
+    marginTop: 6,
+    width: "100%",
+    paddingVertical: 15,
+    marginBottom: 20,
+
+    shadowColor: "#4A90E2",
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 2,
   },
-  backText: { 
-    color: '#fefefeff', 
-    fontSize: 20,
-    fontWeight: 'bold'
+
+  backText: {
+    color: "#FFF",
+    fontSize: 18,
+    fontWeight: "700",
+    textAlign: "center",
   },
 });
+
 
 export default MedicalHistoryScreen;

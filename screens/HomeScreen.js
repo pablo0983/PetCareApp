@@ -1,110 +1,163 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, PixelRatio } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, PixelRatio, Dimensions, Platform } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import I18n from '../src/locales/i18n';
-import { Dimensions } from 'react-native';
 
+const { width, height } = Dimensions.get("window");
 const scaleFont = (size) => size * PixelRatio.getFontScale();
-const { width, height } = Dimensions.get('window');
+
 const HomeScreen = ({ navigation }) => {
   return (
-    <ImageBackground
-      source={require("../assets/fondouno.jpg")}
-      style={styles.background}
-      resizeMode="cover" 
-    >
-      <View style={styles.container}>
-        {/* Header con imagen */}
-        
-        <View style={styles.textConteiner}>
-          <Text style={styles.title}>{I18n.t('welcome')}</Text>
-          <Text style={styles.title2}>{I18n.t('welcome2')}</Text>
-        </View>
-        <Image
-          source={require('../assets/pets-header.png')}
-          style={styles.headerImage}
-        />
-        {/* Botones principales */}
-        <View style={styles.buttonsContainer}>
-         <TouchableOpacity
-          style={styles.bigButton}
-            onPress={() => navigation.navigate('PetList')}
-         >
-            <Text style={styles.buttonText}>🐾  {I18n.t('pet_list')}</Text>
-          </TouchableOpacity>
+    <View style={styles.background}>
 
-          <TouchableOpacity
-            style={styles.bigButton2}
-            onPress={() => navigation.navigate('AddPet')}
-          >
-            <Text style={styles.buttonText}>➕ {I18n.t('add_pet')}</Text>
-          </TouchableOpacity>
+      {/* Fondo profesional pastel */}
+      <LinearGradient
+        colors={[
+           "#F8C8DC", // rosa pastel visible
+           "#B5D6FF", // celeste pastel visible
+           "#C8F7C5"  // verde pastel suave pero notorio
+         ]}
+         style={styles.gradient}
+         start={{ x: 0, y: 0 }}
+         end={{ x: 1, y: 1 }}
+      />
+
+      <View style={styles.container}>
+        
+        {/* Glass card */}
+        <View style={styles.card}>
+          
+          <Text style={styles.title}>{I18n.t("welcome")}</Text>
+          <Text style={styles.title2}>{I18n.t("welcome2")}</Text>
+
+          <Image
+            source={require("../assets/pets-header.png")}
+            style={styles.headerImage}
+          />
+          
+          <View style={styles.buttonsContainer}>
+
+            <TouchableOpacity
+              style={styles.bigButton}
+              onPress={() => navigation.navigate("PetList")}
+            >
+              <Text style={styles.buttonText}>🐾 {I18n.t("pet_list")}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.bigButton2}
+              onPress={() => navigation.navigate("AddPet")}
+            >
+              <Text style={styles.buttonText}>➕ {I18n.t("add_pet")}</Text>
+            </TouchableOpacity>
+
+          </View>
         </View>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: '100%',
-    height: '100%'
   },
-  container: { 
-    flex: 1, 
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.8)',
-    paddingHorizontal: width * 0.02,
-    display: 'flex',
-    flexDirection: 'column'
+
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
   },
-  headerImage: { 
-    width: '90%',
-    flex: 0.7,
-    marginBottom: height * 0.03,
-    resizeMode: 'contain',
-    padding: 0
+
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: width * 0.04,
   },
-  buttonsContainer: {
-    width: '100%'
-  }, 
+
+  card: {
+  width: "92%",
+  borderRadius: 25,
+  paddingVertical: height * 0.04,
+  paddingHorizontal: width * 0.05,
+  alignItems: "center",
+
+  // 👇 iOS mantiene la transparencia original (glassmorphism real)
+  ...(Platform.OS === "ios"
+    ? {
+        backgroundColor: "rgba(255,255,255,0.35)",
+        borderWidth: 1,
+        borderColor: "rgba(255,255,255,0.45)",
+        shadowColor: "#000",
+        shadowOpacity: 0.10,
+        shadowRadius: 14,
+        shadowOffset: { width: 0, height: 4 },
+      }
+    : {
+        // 👇 Android: SIN transparencias (esto evita el borde feo)
+        backgroundColor: "#F4F7FA",
+        borderWidth: 1,
+        borderColor: "rgba(255,255,255,0.3)",
+
+        // Sombra compatible
+        elevation: 6,
+        shadowColor: "#000",
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+        shadowOffset: { width: 0, height: 3 },
+      }),
+},
+
   title: {
-    fontSize: scaleFont(33), 
-    fontWeight: 'bold', 
-    marginTop: height * 0.03, 
-    textAlign: 'center',
-    color: '#634040ff',
-    padding: 0 
+    fontSize: scaleFont(36),
+    color: "#4A4A4A",
+    fontWeight: "700",
+    textAlign: "center",
   },
+
   title2: {
-    fontSize: scaleFont(44),
-    fontWeight: 'bold', 
-    marginTop: height * 0.03, 
-    textAlign: 'center',
-    color: '#634040ff',
-    padding: 0
+    fontSize: scaleFont(45),
+    color: "#4A4A4A",
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: height * 0.02,
   },
+
+  headerImage: {
+    width: "80%",
+    height: undefined,
+    aspectRatio: 1.5,
+    resizeMode: "contain",
+    marginBottom: height * 0.03,
+  },
+
+  buttonsContainer: {
+    width: "100%",
+    marginTop: height * 0.02,
+  },
+
   bigButton: {
-    width: '100%',
-    backgroundColor: '#2195f3ce',
+    width: "100%",
+    backgroundColor: "#64B5F6",
     paddingVertical: height * 0.02,
-    borderRadius: 12,
-    marginBottom: height * 0.02
+    borderRadius: 15,
+    marginBottom: height * 0.02,
+    elevation: 4,
   },
+
   bigButton2: {
-    width: '100%',
-    backgroundColor: '#4caf4fd8',
+    width: "100%",
+    backgroundColor: "#81C784",
     paddingVertical: height * 0.02,
-    borderRadius: 12,
-    marginBottom: height * 0.02
+    borderRadius: 15,
+    elevation: 4,
   },
-  buttonText: { 
-    color: 'white', 
-    fontSize: width * 0.07, 
-    textAlign: 'center', 
-    fontWeight: 'bold' 
+
+  buttonText: {
+    color: "white",
+    fontSize: scaleFont(24),
+    textAlign: "center",
+    fontWeight: "700",
   },
 });
 

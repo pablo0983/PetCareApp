@@ -11,6 +11,7 @@ import {
   ImageBackground,
   Modal,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "expo-notifications";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -135,11 +136,13 @@ export default function RemindersScreen({ route, navigation }) {
   };
 
   return (
-    <ImageBackground
-      source={require("../assets/fondodos.jpg")}
-      style={styles.background}
-      resizeMode="cover"
+    <LinearGradient
+     colors={["#F8C8DC", "#B5D6FF", "#C8F7C5"]}
+     style={styles.background}
+     start={{ x: 0, y: 0 }}
+     end={{ x: 1, y: 1 }}
     >
+
       <View style={styles.container}>
         <Text style={styles.title}>📅 {I18n.t("reminders")}</Text>
 
@@ -251,153 +254,209 @@ export default function RemindersScreen({ route, navigation }) {
           <Text style={styles.backText}>{I18n.t("back")}</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: "100%",
-    height: "100%",
   },
+
+  // 🌈 Fondo profesional pastel
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
     padding: 20,
-    backgroundColor: "#d5dc70e4",
     alignItems: "center",
+    backgroundColor: "transparent",
   },
+
   title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 15,
-    marginTop: 40,
-  },
-  input: {
-    height: 50,
-    width: "100%",
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 10,
-  },
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  modalContent: {
-    width: "100%",
-    height: 345,
-    backgroundColor: "#adb366ff",
-    borderRadius: 50,
-    padding: 20,
-    alignItems: "center",
-  },
-  modalContentText: {
-    color: "black",
-    fontWeight: "700",
     fontSize: 28,
+    fontWeight: "700",
+    marginTop: 40,
+    marginBottom: 15,
+    color: "#2D2A32",
   },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+
+  input: {
     width: "100%",
-    marginTop: 20,
+    height: 50,
+    backgroundColor: "#ffffffEE",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 12,
+    borderWidth: 0,
   },
-  cancelButton: {
-    flex: 1,
-    marginRight: 10,
-    backgroundColor: "#e9efeaff",
-    padding: 8,
-    borderRadius: 10,
-  },
-  confirmButton: {
-    flex: 1,
-    marginLeft: 10,
-    backgroundColor: "#4caf50",
-    padding: 8,
-    borderRadius: 10,
-  },
-  cancelText: {
-    color: "#060101ff",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-  confirmText: {
-    color: "#fff",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 20,
-  },
+
   dateButton: {
     width: "100%",
     height: 50,
-    padding: 15,
-    backgroundColor: "#eee",
-    borderRadius: 12,
-    marginBottom: 10,
+    backgroundColor: "#ffffffEE",
+    borderRadius: 14,
+    justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 15,
   },
+
   saveButton: {
-    height: 50,
     width: "100%",
-    backgroundColor: "#4CAF50",
-    padding: 15,
-    borderRadius: 12,
+    height: 52,
+    backgroundColor: "#6CC17E",
+    borderRadius: 14,
     alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
     marginBottom: 20,
+    shadowColor: "#6CC17E",
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 3,
   },
+
   saveText: {
     color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 17,
+    fontWeight: "700",
   },
+
   list: {
     width: "100%",
     marginTop: 10,
+    flex: 1,
   },
+
   reminderCard: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 10,
-    borderLeftWidth: 5,
-    borderLeftColor: "#4CAF50",
+    backgroundColor: "#FFFFFFDD",
+    borderRadius: 16,
+    padding: 18,
+    marginBottom: 12,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
+
+    // Sombra suave estilo iOS
+    shadowColor: "#000",
+    shadowOpacity: 0.07,
+    shadowRadius: 6,
+    shadowOffset: { height: 2 },
+    elevation: 2,
+
+    borderLeftWidth: 6,
+    borderLeftColor: "#6CC17E",
   },
+
   reminderDate: {
     fontSize: 12,
-    color: "#555",
+    color: "#6A6A6A",
   },
+
   reminderText: {
-    fontSize: 18,
+    fontSize: 17,
     flex: 1,
     marginHorizontal: 10,
+    color: "#2D2A32",
+    fontWeight: "500",
   },
+
   delete: {
-    fontSize: 18,
-    color: "red",
+    fontSize: 22,
+    color: "#E24C4B",
   },
+
   backButton: {
-    width: "100%",
     alignItems: "center",
-    backgroundColor: "#2195f3c2",
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 30,
+    backgroundColor: "#2195f3ff",
+    padding: 14,
+    borderRadius: 50,
+    marginTop: 6,
+    width: "100%",
+    paddingVertical: 15,
+    marginBottom: 20,
+
+    shadowColor: "#4A90E2",
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 2,
   },
+
   backText: {
-    color: "#fefefeff",
-    fontSize: 20,
-    fontWeight: "bold",
+    color: "white",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+
+  // 🟣 Modal iOS elegante
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+
+  modalContent: {
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    padding: 25,
+    paddingBottom: 40,
+  },
+
+  modalContentText: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#2D2A32",
+    marginBottom: 10,
+  },
+
+  modalCon: {
+    marginVertical: -15,
+  },
+
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+
+  cancelButton: {
+    flex: 1,
+    backgroundColor: "#EFEFEF",
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginRight: 10,
+  },
+
+  confirmButton: {
+    flex: 1,
+    backgroundColor: "#6CC17E",
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginLeft: 10,
+  },
+
+  cancelText: {
+    textAlign: "center",
+    fontWeight: "600",
+    color: "#444",
+    fontSize: 17,
+  },
+
+  confirmText: {
+    textAlign: "center",
+    fontWeight: "700",
+    color: "white",
+    fontSize: 17,
   },
 });
+

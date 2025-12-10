@@ -91,11 +91,6 @@ const AddPetScreen = ({ navigation }) => {
 
 
   return (
-    <ImageBackground
-      source={require("../assets/fondodos.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
       <ScrollView 
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -221,175 +216,229 @@ const AddPetScreen = ({ navigation }) => {
           <Text style={styles.backText}>{I18n.t("back")}</Text>
         </TouchableOpacity>
       </ScrollView>
-    </ImageBackground>
-  );
-};
+     );
+    };
 
 const styles = StyleSheet.create({
-  background: { 
-    flex: 1, 
-    width: '100%', 
-    height: '100%' 
-  },
   scrollContainer: {
     flexGrow: 1,
     width: '100%',
     padding: 20,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    backgroundColor: 'rgba(82, 159, 65, 0.6)'
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginVertical: 20,
-    color: '#262f32ff',
-    textAlign: 'center'
-  },
-  input: {
-    backgroundColor: 'rgba(187, 223, 179, 0.8)',
-    width: '100%',
-    height: 45,
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 8
-  },
-  dateButton: {
-    width: '100%',
-    height: 45,
-    justifyContent: 'center',
-    borderWidth: 1,
-    padding: 5,
-    backgroundColor: 'rgba(187, 223, 179, 0.8)',
-    borderRadius: 8,
-    marginBottom: 10
-  },
-  dateText: { 
-    fontSize: 15 
+    backgroundColor: "#d0e0f3ff",
   },
 
-  // iOS date picker
+  title: {
+    fontSize: 30,
+    fontWeight: '900',
+    marginVertical: 20,
+    color: '#1f527cff',
+    textAlign: 'center',
+  },
+
+  input: {
+    width: '100%',
+    height: 50,
+    paddingHorizontal: 14,
+    marginBottom: 14,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#cfd8d2',
+
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    elevation: 2,
+  },
+
+  /* 📅 Fecha */
+  dateButton: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#cfd8d2',
+
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    elevation: 2,
+  },
+
+  dateText: { 
+    fontSize: 17,
+    color: '#333',
+    fontWeight: '500',
+  },
+
+  /* iOS Date Picker */
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.30)",
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
   },
+
   modalContent: {
     width: "100%",
-    backgroundColor: "#78b57cff",
-    borderRadius: 50,
+    backgroundColor: "#ffffff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     padding: 20,
-    alignItems: "center"
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderColor: "#dfe5e0",
   },
+
   buttonRow: { 
     flexDirection: "row", 
     justifyContent: "space-between", 
     width: "100%", 
-    marginTop: 20 
+    marginTop: 20,
   },
-  cancelButton: { flex: 1, 
-    marginRight: 10, 
-    backgroundColor: "#5a7e62ff", 
-    padding: 8, 
-    borderRadius: 10 
+
+  cancelButton: { 
+    flex: 1,
+    marginRight: 10,
+    backgroundColor: "#93b6a1",
+    padding: 12,
+    borderRadius: 10,
   },
+
   confirmButton: { 
-    flex: 1, marginLeft: 10, 
-    backgroundColor: "#4caf50", 
-    padding: 8, 
-    borderRadius: 10 
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: "#4caf50",
+    padding: 12,
+    borderRadius: 10,
   },
+
   cancelText: { 
-    color: "#fff", 
-    textAlign: "center", 
-    fontWeight: "bold", 
-    fontSize: 20 
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 18,
   },
+
   confirmText: { 
-    color: "#fff", 
-    textAlign: "center", 
-    fontWeight: "bold", 
-    fontSize: 20 
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 18,
   },
+
+  /* 🐾 Imagen */
   imageButton: {
     width: '100%',
     minHeight: 200,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 12,
-    backgroundColor: 'rgba(187, 223, 179, 0.8)',
-    borderRadius: 8,
-    marginBottom: 10,
-    borderWidth: 1
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    marginBottom: 14,
+
+    borderWidth: 1,
+    borderColor: '#cfd8d2',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 3,
+    elevation: 2,
   },
+
   imagePreview: { 
     width: '100%', 
     height: 200, 
     borderRadius: 12, 
-    resizeMode: 'cover' 
-  },
-  saveButton: { 
-    width: '100%', 
-    backgroundColor: '#4caf4fe7', 
-    padding: 20, 
-    borderRadius: 12, 
-    marginBottom: 10 
-  },
-  saveText: { 
-    color: 'white', 
-    fontSize: 22, 
-    textAlign: 'center', 
-    fontWeight: 'bold' 
-  },
-  backButton: { 
-    width: '100%', 
-    alignItems: 'center', 
-    backgroundColor: '#2195f3c2', 
-    padding: 15, 
-    borderRadius: 12, 
-    marginBottom: 30 
-  },
-  backText: { 
-    color: '#fff', 
-    fontSize: 20, 
-    fontWeight: 'bold' 
+    resizeMode: 'cover',
   },
 
-  // 🔹 Estilos del menú desplegable
-  pickerButton: {
-    width: "100%",
-    height: 45,
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    backgroundColor: "rgba(187, 223, 179, 0.8)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginBottom: 10
+  /* 💾 Botón guardar */
+  saveButton: { 
+    width: '100%',
+    backgroundColor: '#4caf50',
+    padding: 14,
+    borderRadius: 50,
+    marginBottom: 10,
   },
+
+  saveText: { 
+    color: 'white',
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  /* Volver */
+  backButton: { 
+    alignItems: "center",
+    backgroundColor: "#2195f3ff",
+    padding: 14,
+    borderRadius: 50,
+    width: "100%",
+  },
+
+  backText: { 
+    color: "#fff", fontSize: 17, fontWeight: "600" 
+  },
+
+  /* 🔽 Selector especie */
+  pickerButton: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#cfd8d2',
+  },
+
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0,0,0,0.30)",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
+
   modalContainer: {
     width: "80%",
-    backgroundColor: "#78b57cfe",
-    borderRadius: 12,
-    paddingVertical: 10
-  },
-  modalItem: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
     paddingVertical: 12,
+
+    borderWidth: 1,
+    borderColor: "#dfe5e0",
+
+    shadowColor: '#000',
+    shadowOpacity: 0.10,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
+    elevation: 4,
+  },
+
+  modalItem: {
+    paddingVertical: 14,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderColor: "#ddd"
+    borderColor: "#f0f0f0",
   },
+
   modalItemText: { 
-    fontSize: 23,
-    fontWeight: 500 
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
   },
 });
+
 
 export default AddPetScreen;

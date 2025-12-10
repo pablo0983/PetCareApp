@@ -55,8 +55,8 @@ const TypePicker = ({ value, onValueChange, options }) => {
               </View>
 
               <View style={styles.modalButtons}>
-                <TouchableOpacity style={styles.modalBtn} onPress={() => setOpen(false)}>
-                  <Text style={styles.modalBtnText}>{I18n.t("cancel")}</Text>
+                <TouchableOpacity style={styles.modalBtn1} onPress={() => setOpen(false)}>
+                  <Text style={styles.modalBtnText1}>{I18n.t("cancel")}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.modalBtn, styles.modalBtnPrimary]} onPress={() => setOpen(false)}>
@@ -78,7 +78,7 @@ const TypePicker = ({ value, onValueChange, options }) => {
         onValueChange={onValueChange}
         mode="dropdown"
         style={styles.androidPicker}
-        dropdownIconColor="#4CAF50"
+        dropdownIconColor="#2a37c6ff"
       >
         {/* placeholder */}
         <Picker.Item style={styles.label} label={I18n.t("select_type")} value="" color="#888" />
@@ -101,11 +101,11 @@ const TypePicker = ({ value, onValueChange, options }) => {
 const styles = StyleSheet.create({
   trigger: {
     width: '100%',
-    height: 50,
-    backgroundColor: '#e9ee536d',
-    borderWidth: 2,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    height: 48,
+    backgroundColor: "rgba(76, 138, 237, 0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(46,86,146,0.12)",
+    borderRadius: 10,
     padding: 10,
     marginBottom: 8,
   },
@@ -118,11 +118,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.4)",
   },
   modalContent: {
-    backgroundColor: '#c9cc80ff',
-    paddingTop: 12,
-    paddingHorizontal: 12,
-    paddingBottom: 20,
-    borderRadius: 50,
+    marginBottom: 0,
+    borderRadius: 20,
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 18,
   },
   modalTitle: { 
     textAlign: "center", 
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
   pickerWrap: {
     width: "100%",
     height: Platform.OS === 'ios' ? 180 : 50,
-    backgroundColor: Platform.OS === 'ios' ? '#c9cc80ff' : '#e9ee53ff', // 👈 blanco en iOS
+    backgroundColor: Platform.OS === 'ios' ? "#fff" : "#fff", // 👈 blanco en iOS
     marginBottom: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -156,26 +157,42 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalBtnPrimary: {
-    backgroundColor: "#4caf50",
+    flex: 1, 
+    paddingVertical: 10, 
+    marginLeft: 6, 
+    borderRadius: 8, 
+    backgroundColor: "#4E8BED", 
+    alignItems: "center"
+  },
+  modalBtn1: {
+    flex: 1, 
+    paddingVertical: 10, 
+    marginRight: 6, 
+    borderRadius: 8, 
+    backgroundColor: "#f0f0f0", 
+    alignItems: "center"
+  },
+  modalBtnText1: {
+    fontWeight: "bold", 
+    color: "#333"
   },
   modalBtnText: { 
-    fontWeight: "700" 
+    fontWeight: "bold", color: "#fff" 
   },
   androidContainer: {
     width: '100%',
-    height: 50,
-    backgroundColor: '#e9ee536d',
-    borderWidth: 2,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 5,
+    height: 48,
+    backgroundColor: "rgba(76, 138, 237, 0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(46,86,146,0.12)",
+    borderRadius: 10,
+    padding: 10,
     marginBottom: 8,
     justifyContent: "center",
   },
   androidPicker: {
     width: "100%",
     height: 50,
-    padding: 0,
     backgroundColor: 'transparent', 
   },
   label: {

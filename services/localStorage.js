@@ -87,3 +87,25 @@ export const getMedicalIncidents = async (petId) => {
     return [];
   }
 };
+
+// 📝 Guardar registro de peso histórico
+export const addWeightRecord = async (petId, weight) => {
+  const key = `weight_history_${petId}`;
+  const stored = JSON.parse(await AsyncStorage.getItem(key)) || [];
+
+  const newRecord = { 
+    date: new Date().toISOString(),
+    weight: weight
+  };
+
+  stored.push(newRecord);
+
+  await AsyncStorage.setItem(key, JSON.stringify(stored));
+  return stored;
+};
+
+// 📝 Obtener historial de peso
+export const getWeightHistory = async (petId) => {
+  const key = `weight_history_${petId}`;
+  return JSON.parse(await AsyncStorage.getItem(key)) || [];
+};
