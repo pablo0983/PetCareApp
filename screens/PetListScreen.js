@@ -49,7 +49,7 @@ const PetListScreen = ({ navigation }) => {
         <FlatList
           data={pets}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingBottom: 30 }}
+          contentContainerStyle={{ paddingBottom: 30}}
           renderItem={({ item }) => (
             <BlurView intensity={40} tint="light" style={styles.card}>
               
@@ -112,32 +112,36 @@ const styles = StyleSheet.create({
   justifyContent: "space-between",
   alignItems: "center",
   marginTop: 20,
-  padding: 14,
-  borderRadius: 20,
+  padding: 8,
+  borderRadius: 24,
+  height: 100,
 
-  // 👉 iOS mantiene glass real
   ...(Platform.OS === "ios"
     ? {
-        backgroundColor: "rgba(255,255,255,0.32)",
-        borderWidth: 1,
-        borderColor: "rgba(255,255,255,0.55)",
+        overflow: "hidden",
+        backgroundColor: "rgba(255,255,255,0.15)",
+        borderColor: "rgba(255,255,255,0.35)",
         shadowColor: "#000",
-        shadowOpacity: 0.12,
+        shadowOpacity: 0.10,
         shadowRadius: 14,
         shadowOffset: { width: 0, height: 4 },
       }
     : {
-        // 👉 Android usa glass simulado (sin borrar el fondo)
-        backgroundColor: "#F7FAFF", // similar a glass pero sin transparencia
-        borderWidth: 1,
-        borderColor: "rgba(255,255,255,0.32)",
-        elevation: 6,
+        backgroundColor: "rgba(255,255,255,0.28)",
+        borderRadius: 24,
+        overflow: "hidden",
+
+        borderWidth: 0,
+        borderColor: "transparent",
+
+        elevation: 0, // sin bordes duros
         shadowColor: "#000",
-        shadowOpacity: 0.08,
+        shadowOpacity: 0.10,
         shadowRadius: 10,
-        shadowOffset: { width: 0, height: 3 },
+        shadowOffset: { width: 0, height: 4 },
       }),
 },
+
 
 
   imageWrap: {
@@ -159,13 +163,13 @@ const styles = StyleSheet.create({
   },
 
   emoji: {
-    fontSize: 60
+    fontSize: 70
   },
 
   nameContainer: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
 
   name: {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, TextInput, StyleSheet, TouchableOpacity, Platform, View, ImageBackground, Image, ScrollView, Alert, Modal } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system'; 
+import * as FileSystem from 'expo-file-system/legacy'; 
 import { addPet } from '../services/localStorage';
 import I18n from '../src/locales/i18n.js'; 
 import { t } from "../src/utils/permissionsText.js";

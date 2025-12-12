@@ -95,16 +95,17 @@ const styles = StyleSheet.create({
       }
     : {
         // 👇 Android: SIN transparencias (esto evita el borde feo)
-        backgroundColor: "#F4F7FA",
-        borderWidth: 1,
-        borderColor: "rgba(255,255,255,0.3)",
+        backgroundColor: "rgba(255,255,255,0.28)",borderRadius: 24,
+        overflow: "hidden",
 
-        // Sombra compatible
-        elevation: 6,
+        borderWidth: 0,
+        borderColor: "transparent",
+
+        elevation: 0, // sin bordes duros
         shadowColor: "#000",
-        shadowOpacity: 0.08,
-        shadowRadius: 12,
-        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.10,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
       }),
 },
 
