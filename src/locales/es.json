@@ -104,5 +104,22 @@
   "select": "Seleccionar...",
   "unable_signature": "Imposible acceder a la firma",
   "firm_required": "Firma requerida",
-  "please_confirm_signature": "Por favor confirme la firma."
+  "please_confirm_signature": "Por favor confirme la firma.",
+
+  "not_exported": "Error: no se han podido exportar los datos",
+  "backup_created": "Copia de seguridad creada, datos exportados correctamente",
+  "problem_exporting": "Error, \nHa surgido un problema al exportar",
+  "restore_data": "Restaurar datos, \nEsto sustituirá todos tus datos actuales.",
+  "restore": "Restaurar",
+  "done": "Hecho",
+  "done_restart_app": "Datos restaurados correctamente.\nReinicia la aplicación para ver los cambios.",
+  "not_be_restored": "Error, no se han podido restaurar los datos",
+  "problem_importing": "Error, se ha producido un problema al importar",
+  "data_backup": "Respaldar datos",
+  "save_pets_information": "Guardar o recuperar toda la información de tus mascotas",
+  "export_data": "Exportar datos",
+  "save_file": "Guardar un archivo con toda tu información",
+  "import_data": "Importar datos",
+  "restore_from_backup": "Restaurar datos desde una copia de seguridad",
+  "processing": "Procesando..."
 }

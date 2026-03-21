@@ -104,5 +104,22 @@
   "select": "Selecionar...",
   "unable_signature": "Impossível acessar a assinatura",
   "firm_required": "Assinatura necessária",
-  "please_confirm_signature": "Confirme a assinatura."
+  "please_confirm_signature": "Confirme a assinatura.",
+
+  "not_exported": "Erro: não foi possível exportar os dados",
+  "backup_created": "Cópia de segurança criada, dados exportados com sucesso",
+  "problem_exporting": "Erro, \nOcorreu um problema durante a exportação",
+  "restore_data": "Restaurar dados, \nIsso substituirá todos os seus dados atuais.",
+  "restore": "Restaurar",
+  "done": "Concluído",
+  "done_restart_app": "Dados restaurados com sucesso.\nReinicie o aplicativo para ver as alterações.",
+  "not_be_restored": "Erro, não foi possível restaurar os dados",
+  "problem_importing": "Erro, ocorreu um problema durante a importação",
+  "data_backup": "Fazer backup dos dados",
+  "save_pets_information": "Salvar ou recuperar todas as informações dos seus animais de estimação",
+  "export_data": "Exportar dados",
+  "save_file": "Salvar um arquivo com todas as suas informações",
+  "import_data": "Importar dados",
+  "restore_from_backup": "Restaurar dados a partir de um backup",
+  "processing": "Processando..."
 }

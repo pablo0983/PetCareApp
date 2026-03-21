@@ -106,5 +106,22 @@
   "select": "Select...",
   "unable_signature": "Impossible to access signature",
   "firm_required": "Signature required",
-  "please_confirm_signature": "Please confirm the signature."
+  "please_confirm_signature": "Please confirm the signature.",
+
+  "not_exported": "Error, The data could not be exported",
+  "backup_created": "Backup created, Data exported successfully",
+  "problem_exporting": "Error, \nThere was a problem exporting",
+  "restore_data": "Restore data, \nThis will replace all your current data.",
+  "restore": "Restore",
+  "done": "Done",
+  "done_restart_app": "Data restored successfully.\nRestart the app to see the changes.",
+  "not_be_restored": "Error, The data could not be restored",
+  "problem_importing": "Error, There was a problem importing",
+  "data_backup": "Data backup",
+  "save_pets_information": "Save or retrieve all your pets' information",
+  "export_data": "Export data",
+  "save_file": "Save a file containing all your information",
+  "import_data": "Import data",
+  "restore_from_backup": "Restore data from a backup",
+  "processing": "Processing..."
 }

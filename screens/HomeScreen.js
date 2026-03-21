@@ -50,6 +50,13 @@ const HomeScreen = ({ navigation }) => {
             >
               <Text style={styles.buttonText}>➕ {I18n.t("add_pet")}</Text>
             </TouchableOpacity>
+            {/* 🔥 BACKUP */}
+            <TouchableOpacity
+              style={styles.backupButton}
+              onPress={() => navigation.navigate("Backup")}
+            >
+              <Text style={styles.buttonText}>💾 Backup</Text>
+            </TouchableOpacity>
 
           </View>
         </View>
@@ -159,6 +166,14 @@ const styles = StyleSheet.create({
     fontSize: scaleFont(24),
     textAlign: "center",
     fontWeight: "700",
+  },
+  backupButton: {
+    width: "100%",
+    backgroundColor: "#BA68C8", // violeta pastel (combina con tu UI)
+    paddingVertical: height * 0.02,
+    borderRadius: 15,
+    marginTop: height * 0.02,
+    elevation: 4,
   },
 });
 

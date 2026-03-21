@@ -10,7 +10,6 @@ import {
   Image,
   Alert,
   Modal,
-  ScrollView,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";

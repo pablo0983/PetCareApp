@@ -109,3 +109,46 @@ export const getWeightHistory = async (petId) => {
   const key = `weight_history_${petId}`;
   return JSON.parse(await AsyncStorage.getItem(key)) || [];
 };
+
+// 📦 EXPORTAR TODOS LOS DATOS (backup)
+export const exportAllData = async () => {
+  try {
+    const keys = await AsyncStorage.getAllKeys();
+
+    // Solo filtramos las keys de tu app
+    const filteredKeys = keys.filter(
+      (key) =>
+        key === 'pets' ||
+        key.startsWith('incidents_') ||
+        key.startsWith('weight_history_')
+    );
+
+    const stores = await AsyncStorage.multiGet(filteredKeys);
+
+    const data = {};
+    stores.forEach(([key, value]) => {
+      data[key] = value;
+    });
+
+    return JSON.stringify(data);
+  } catch (e) {
+    console.error('Error exportando datos:', e);
+    return null;
+  }
+};
+
+// 📥 IMPORTAR TODOS LOS DATOS (restore)
+export const importAllData = async (jsonData) => {
+  try {
+    const data = JSON.parse(jsonData);
+
+    const entries = Object.entries(data);
+
+    await AsyncStorage.multiSet(entries);
+
+    return true;
+  } catch (e) {
+    console.error('Error importando datos:', e);
+    return false;
+  }
+};

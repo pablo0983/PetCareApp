@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TextInput, StyleSheet, TouchableOpacity, Platform, View, ImageBackground, Image, ScrollView, Alert, Modal } from "react-native";
+import { Text, TextInput, StyleSheet, TouchableOpacity, Platform, View, Image, ScrollView, Alert, Modal } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system/legacy'; 

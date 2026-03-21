@@ -12,6 +12,7 @@ import MedicalHistoryScreen from './screens/MedicalHistoryScreen';
 import RemindersScreen from './screens/RemindersScreen';
 import * as Notifications from "expo-notifications";
 import * as Localization from 'expo-localization';
+import BackupScreen from './screens/BackupScreen';
 import I18n from './src/locales/i18n';
 
 
@@ -63,6 +64,7 @@ export default function App() {
         <Stack.Screen name="AddIncidentScreen" component={AddIncidentScreen} />
         <Stack.Screen name="MedicalHistoryScreen" component={MedicalHistoryScreen} />
         <Stack.Screen name="Reminders" component={RemindersScreen} />
+        <Stack.Screen name="Backup" component={BackupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
