@@ -1,7 +1,7 @@
 {
   "name": "PetCareApp",
   "slug": "petcare-app",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
   "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
   "ios": {
     "supportsTablet": false,
     "bundleIdentifier": "com.pablopetry.petcareapp",
-    "buildNumber": "16",
+    "buildNumber": "17",
     "entitlements": {},
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
@@ -26,7 +26,7 @@
   },
   "android": {
     "package": "com.pablopetry.PetCareApp",
-    "versionCode": 15,
+    "versionCode": 17,
     "adaptiveIcon": {
       "foregroundImage": "./assets/icon.png",
       "backgroundColor": "#ffffff"
