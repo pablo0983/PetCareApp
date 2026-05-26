@@ -1,6 +1,10 @@
 {
   "name": "petcare-app",
+<<<<<<< HEAD
   "version": "3.0.7",
+=======
+  "version": "3.0.6",
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -69,7 +73,11 @@
   "expo": {
     "name": "PetCareApp",
     "slug": "petcare-app",
+<<<<<<< HEAD
     "version": "3.0.7",
+=======
+    "version": "3.0.6",
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -82,7 +90,11 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.pablopetry.petcareapp",
+<<<<<<< HEAD
       "buildNumber": "18",
+=======
+      "buildNumber": "17",
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSCameraUsageDescription": "Necesitamos acceso a la cámara para adjuntar imágenes en incidentes.",
@@ -92,7 +104,11 @@
     },
     "android": {
       "package": "com.pablopetry.PetCareApp",
+<<<<<<< HEAD
       "versionCode": 18,
+=======
+      "versionCode": 17,
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"

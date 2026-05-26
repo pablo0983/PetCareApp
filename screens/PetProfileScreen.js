@@ -22,6 +22,7 @@ import {
   getWeightHistory,
 } from "../services/localStorage";
 import I18n from "../src/locales/i18n";
+<<<<<<< HEAD
 import { 
   calculateProfessionalFeeding,
   calculateWeightPlan
@@ -47,6 +48,109 @@ const supportsBCS = (species) => {
 };
 /* ---------------------- CÁLCULOS NUTRICIONALES ---------------------- */
 
+=======
+
+/* ---------------------- CÁLCULOS NUTRICIONALES (AHORA INCLUYE HAMSTER & RABBIT) ---------------------- */
+const calculateProfessionalFeeding = (
+  species,
+  weight,
+  birthDate,
+  foodKcalPer100g = 350,
+  activity = "normal",
+  esterilizado = false,
+  estadoCorporal = null,
+  condicionEspecial = null
+) => {
+  if (!weight || !birthDate) return I18n.t("missing");
+
+  const birth = new Date(birthDate);
+  const today = new Date();
+  const ageMonths = (today.getFullYear() - birth.getFullYear()) * 12 + (today.getMonth() - birth.getMonth());
+  const ageYears = ageMonths / 12;
+
+  // RER (base)
+  const RER = 70 * Math.pow(weight, 0.75);
+
+  // MER por especie/etapa (factores según Opción B para hamster y rabbit)
+  let MER = RER;
+
+  const sp = (species || "").toLowerCase();
+
+  if (sp === "dog" || sp === "perro") {
+    if (ageMonths < 4) MER = RER * 3.0;
+    else if (ageMonths < 12) MER = RER * 2.0;
+    else {
+      MER = esterilizado ? RER * 1.4 : RER * 1.8;
+      if (ageYears >= 8) MER = RER * 1.4;
+      if (estadoCorporal && estadoCorporal >= 7) MER = RER * 1.0;
+      if (condicionEspecial === "renal") MER = RER * 1.2;
+      if (condicionEspecial === "cardiaco") MER = RER * 1.3;
+    }
+  } else if (sp === "cat" || sp === "gato") {
+    if (ageMonths < 12) MER = RER * 2.5;
+    else {
+      MER = esterilizado ? RER * 1.1 : RER * 1.4;
+      if (ageYears >= 10) MER = RER * 1.1;
+      if (estadoCorporal && estadoCorporal >= 7) MER = RER * 0.8;
+      if (condicionEspecial === "renal") MER = RER * 1.1;
+    }
+  } else if (sp === "hamster") {
+    // Hamsters: metabolismo relativamente alto — usar factor mayor (ej: MER ~ 2.5 × RER)
+    // Nota: los hamsters suelen medirse en gramos; aquí asumimos kg como en el resto del sistema
+    if (ageMonths < 2) MER = RER * 3.0;
+    else MER = RER * 2.5;
+    // ajuste actividad
+    if (estadoCorporal && estadoCorporal >= 8) MER = RER * 1.6;
+  } else if (sp === "rabbit" || sp === "conejo") {
+    // Rabbits: factor cercano a 1.8 para adulto, más en crecimiento
+    if (ageMonths < 4) MER = RER * 2.5;
+    else MER = RER * 1.8;
+    if (estadoCorporal && estadoCorporal >= 8) MER = RER * 1.4;
+    if (condicionEspecial === "renal") MER = RER * 1.1;
+  } else {
+    // fallback genérico
+    MER = RER * 1.5;
+  }
+
+  // Ajuste por actividad (baja / normal / alta)
+  const activityFactors = { baja: 0.9, normal: 1.0, alta: 1.2 };
+  const actFactor = activityFactors[activity] || 1.0;
+  MER = MER * actFactor;
+
+  // Gramos por día según kcal/100g
+  const gramsPerDay = foodKcalPer100g ? (MER / foodKcalPer100g) * 100 : null;
+
+  // Planes
+  const gramsLoss = gramsPerDay ? Math.round(gramsPerDay * 0.8) : null; // ~20% déficit
+  const gramsGain = gramsPerDay ? Math.round(gramsPerDay * 1.15) : null; // ~15% superávit
+
+  return {
+    RER: Math.round(RER),
+    MER: Math.round(MER),
+    gramsPerDay: gramsPerDay ? Math.round(gramsPerDay) : null,
+    gramsLoss,
+    gramsGain,
+    factor: (MER / RER).toFixed(2),
+    text:
+      `${sp === "cat" ? "🐱" : sp === "dog" ? "🐶" : sp === "hamster" ? "🐹" : sp === "rabbit" ? "🐰" : "🐾"} ` +
+      `${I18n.t("daily_energy")}: ${Math.round(MER)} kcal\n` +
+      `🍽️ ${I18n.t("recommended_grams")}: ${gramsPerDay ? Math.round(gramsPerDay) : "-"} g/día\n` +
+      `🔻 ${I18n.t("to_lose")}: ${gramsLoss ? gramsLoss : "-"} g/día\n` +
+      `🔺 ${I18n.t("to_gain")}: ${gramsGain ? gramsGain : "-"} g/día\n` +
+      `📏 RER: ${Math.round(RER)} kcal\n` +
+      `🔧 MER: ${(MER / RER).toFixed(2)}x`,
+  };
+};
+
+/* ---------------------- PLAN DE PESO ---------------------- */
+const calculateWeightPlan = (weight, species) => {
+  if (!weight) return "";
+  const targetLoseKgPerWeek = Number((weight * 0.02).toFixed(2)); // 2% semanal
+  const targetGainKgPerWeek = Number((weight * 0.015).toFixed(2)); // 1.5% semanal
+  return `${I18n.t("recommended_loss")}: ${targetLoseKgPerWeek} kg / ${I18n.t("per_week")}\n` +
+         `${I18n.t("recommended_gain")}: ${targetGainKgPerWeek} kg / ${I18n.t("per_week")}`;
+};
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
 
 /* ---------------------- COMPONENTE ---------------------- */
 const PetProfileScreen = ({ route, navigation }) => {
@@ -68,7 +172,10 @@ const PetProfileScreen = ({ route, navigation }) => {
   const [activityLevel, setActivityLevel] = useState("normal"); // baja, normal, alta
   const [esterilizado, setEsterilizado] = useState(false);
   const [estadoCorporal, setEstadoCorporal] = useState(null); // 1-9
+<<<<<<< HEAD
   const showKcal = supportsKcal(pet?.species);
+=======
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
 
 
   useEffect(() => {
@@ -357,8 +464,11 @@ const PetProfileScreen = ({ route, navigation }) => {
                  pet.species?.toLowerCase().includes("dog") ? "🐶" :
                  pet.species?.toLowerCase().includes("hamster") ? "🐹" :
                  pet.species?.toLowerCase().includes("rabbit") ? "🐰" :
+<<<<<<< HEAD
                  pet.species?.toLowerCase().includes("fish") ? "🐠" :
                  pet.species?.toLowerCase().includes("bird") ? "🐥" :
+=======
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
                  "🐾"}
               </Text>
             </View>
@@ -392,8 +502,13 @@ const PetProfileScreen = ({ route, navigation }) => {
               </TouchableOpacity>
             )}
           </View>
+<<<<<<< HEAD
           {showKcal &&  (
           /* KCAL */
+=======
+
+          {/* KCAL */}
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
           <View style={styles.weightRow}>
             <Text style={[styles.infoText, { marginRight: 8 }]}>🥫 kcal/100g:</Text>
             {editingFood ? (
@@ -407,12 +522,16 @@ const PetProfileScreen = ({ route, navigation }) => {
               </TouchableOpacity>
             )}
           </View>
+<<<<<<< HEAD
          )}
             {!showKcal && (
               <Text style={{ fontSize: 12, opacity: 0.6, marginTop: 4 }}>
              ⚠️ {I18n.t("no_kcal_species") || "Esta especie no usa cálculo por kcal"}
                </Text>
             )}
+=======
+
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
           <Text style={[styles.infoText, { marginTop: 8 }]}>{pet.notes}</Text>
 
           {/* CONTROLES DE ACTIVIDAD / ESTERILIZADO / BCS */}
@@ -454,6 +573,7 @@ const PetProfileScreen = ({ route, navigation }) => {
             </View>
             
             {/* Esterilizado */}
+<<<<<<< HEAD
             {supportsSterilization(pet.species) && (
             <View>
               <Text style={{ fontSize: 15, marginBottom: 6 }}>✂️ {I18n.t("sterilized")}</Text>
@@ -513,6 +633,61 @@ const PetProfileScreen = ({ route, navigation }) => {
               </View>
         
              )}        
+=======
+            <Text style={{ fontSize: 15, marginBottom: 6 }}>✂️ {I18n.t("sterilized")}</Text>
+            <TouchableOpacity
+              onPress={async () => {
+                const newVal = !esterilizado;
+                setEsterilizado(newVal);
+                const updated = { ...pet, esterilizado: newVal };
+                await updatePet(petId, updated);
+                setPet(updated);
+              }}
+              style={{
+                backgroundColor: esterilizado ? "#78C091" : "#e4ecf5",
+                padding: 10,
+                borderRadius: 20,
+                width: 120,
+                alignItems: "center",
+                marginBottom: 10,
+              }}
+            >
+              <Text style={{ color: esterilizado ? "#fff" : "#333" }}>
+                {esterilizado ? "Sí" : "No"}
+              </Text>
+            </TouchableOpacity>
+            
+            {/* BCS */}
+            <Text style={{ fontSize: 15, marginBottom: 6 }}>📏 {I18n.t("bcs")} (BCS 1-9):</Text>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              {[1,2,3,4,5,6,7,8,9].map((n) => (
+                <TouchableOpacity
+                  key={n}
+                  onPress={async () => {
+                    setEstadoCorporal(n);
+                    const updated = { ...pet, estadoCorporal: n };
+                    await updatePet(petId, updated);
+                    setPet(updated);
+                  }}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 18,
+                    backgroundColor: estadoCorporal === n ? "#A06CD5" : "#e4ecf5",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: 4,
+                  }}
+                >
+                  <Text style={{ color: estadoCorporal === n ? "#fff" : "#333" }}>
+                    {n}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
           {/* RECOMMENDATION */}
           <View style={styles.recommendationBox}>
             <Text style={styles.recommendationTitle}>🍖 {I18n.t("nutritional")}</Text>
@@ -524,8 +699,13 @@ const PetProfileScreen = ({ route, navigation }) => {
             <Text style={styles.recommendationTitle}>⚖️ {I18n.t("weight_plan")}</Text>
             <Text style={styles.recommendationText}>{weightPlan}</Text>
           </View>
+<<<<<<< HEAD
           </View>
         </View>    
+=======
+        </View>
+
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
         {/* GRÁFICO */}
         {weightHistory && weightHistory.length > 0 && (
           <View style={styles.chartContainer}>
@@ -646,10 +826,13 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10,
     marginTop: 10,
+<<<<<<< HEAD
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 3,
+=======
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
   },
 
   recommendationTitle: { 

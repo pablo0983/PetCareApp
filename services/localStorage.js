@@ -140,6 +140,7 @@ export const exportAllData = async () => {
 // 📥 IMPORTAR TODOS LOS DATOS (restore)
 export const importAllData = async (jsonData) => {
   try {
+<<<<<<< HEAD
     // 🔥 parse en try separado (para detectar crash)
     let data;
     try {
@@ -163,6 +164,13 @@ export const importAllData = async (jsonData) => {
       // 🔥 liberar UI + evitar watchdog kill
       await new Promise(resolve => setTimeout(resolve, 200));
     }
+=======
+    const data = JSON.parse(jsonData);
+
+    const entries = Object.entries(data);
+
+    await AsyncStorage.multiSet(entries);
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
 
     return true;
   } catch (e) {

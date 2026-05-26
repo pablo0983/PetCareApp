@@ -3,7 +3,10 @@
   "welcome2": "A saúde do seu mascote na sua mão",
   "pet_list": "Meus animais de estimação",
   "add_pet": "Adicionar mascote",
+<<<<<<< HEAD
   "name_required": "É preciso dar um nome ao bichinho",
+=======
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
   "pet_data": "Introduzir os seus dados",
   "name": "Nome",
   "pet_species": "Espécie",
@@ -20,8 +23,11 @@
     "cat": "Gato 🐱",
     "rabbit": "Coelho 🐰",
     "hamster": "Hamster 🐹",
+<<<<<<< HEAD
     "fish": "Peixe 🐠",
     "bird": "Ave 🐥",
+=======
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
     "other": "Outra espécie ✨"
   },
 
@@ -48,7 +54,10 @@
   "invalid_weight": "Peso inválido, por favor, insira um número válido.",
   "update_weight": "Peso atualizado.",
   "invalid_kcal": "Insira um valor válido (ex.: 350)",
+<<<<<<< HEAD
   "no_kcal_species":"Essa espécie não calcula as calorias",
+=======
+>>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
   "loading": "Carregando...",
   "nutritional": "Informações nutricionais profissionais",
   "daily_energy": "Energia diária",
