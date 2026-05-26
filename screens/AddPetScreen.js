@@ -25,6 +25,8 @@ const AddPetScreen = ({ navigation }) => {
     { value: "cat", label: I18n.t("species.cat") },
     { value: "rabbit", label: I18n.t("species.rabbit") },
     { value: "hamster", label: I18n.t("species.hamster") },
+    { value: "fish", label: I18n.t("species.fish") },
+    { value: "bird", label: I18n.t("species.bird") },
     { value: "other",label: I18n.t("species.other") },
   ];
 

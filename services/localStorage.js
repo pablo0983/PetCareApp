@@ -140,11 +140,29 @@ export const exportAllData = async () => {
 // 📥 IMPORTAR TODOS LOS DATOS (restore)
 export const importAllData = async (jsonData) => {
   try {
-    const data = JSON.parse(jsonData);
+    // 🔥 parse en try separado (para detectar crash)
+    let data;
+    try {
+      data = JSON.parse(jsonData);
+    } catch (e) {
+      console.log("JSON parse error:", e);
+      return false;
+    }
 
     const entries = Object.entries(data);
 
-    await AsyncStorage.multiSet(entries);
+    await AsyncStorage.clear();
+
+    const chunkSize = 2;
+
+    for (let i = 0; i < entries.length; i += chunkSize) {
+      const chunk = entries.slice(i, i + chunkSize);
+
+      await AsyncStorage.multiSet(chunk);
+
+      // 🔥 liberar UI + evitar watchdog kill
+      await new Promise(resolve => setTimeout(resolve, 200));
+    }
 
     return true;
   } catch (e) {

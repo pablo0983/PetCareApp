@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 3.0.6",
+    "version": ">= 3.0.7",
     "appVersionSource": "local"
   },
   "build": {
@@ -16,7 +16,7 @@
     },
     "production": {
       "env": {
-        "EXPO_ANDROID_VERSION_CODE": "17"
+        "EXPO_ANDROID_VERSION_CODE": "18"
       },
       "android": {
         "buildType": "app-bundle"

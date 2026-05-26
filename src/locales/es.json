@@ -2,6 +2,7 @@
   "welcome": "¡Bienvenido a PetCareApp!",
   "welcome2": "La salud de tu mascota en tu mano",
   "pet_list": "Mis mascotas",
+  "name_required": "Es necesario nombrar a su mascota",
   "add_pet": "Agregar mascota",
   "pet_data": "Ingresa sus datos",
   "name": "Nombre",
@@ -19,6 +20,8 @@
     "cat": "Gato 🐱",
     "rabbit": "Conejo 🐰",
     "hamster": "Hamster 🐹",
+    "fish": "Pez 🐠",
+    "bird": "Ave 🐥",
     "other": "Otra especie ✨"
   },
 
@@ -45,6 +48,7 @@
   "invalid_weight": "Peso inválido, Por favor ingresa un número válido.",
   "update_weight": "Peso actualizado.",
   "invalid_kcal": "Ingresa un valor válido (ej: 350)",
+  "no_kcal_species":"Esta especie no usa cálculo por kcal",
   "loading": "Cargando...",
   "nutritional": "Información nutricional profesional",
   "daily_energy": "Energía diaria",

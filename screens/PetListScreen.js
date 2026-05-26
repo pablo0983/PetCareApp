@@ -30,6 +30,8 @@ const PetListScreen = ({ navigation }) => {
     if (s.includes('cat')) return '🐱';
     if (s.includes('rabbit')) return '🐰';
     if (s.includes('hamster')) return '🐹';
+    if (s.includes('fish')) return '🐠';
+    if (s.includes('bird')) return '🐥';
     return '🐾';
   };
 

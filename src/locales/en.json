@@ -4,7 +4,7 @@
   "welcome2": "Your pet's health in your hand",
   "pet_list": "My pets",
   "add_pet": "Add Pet",
-
+  "name_required": "You need to name your pet",
   "pet_data": "Enter your information",
   "name": "Name",
   "pet_species": "Pet species",
@@ -21,6 +21,8 @@
     "cat": "Cat 🐱",
     "rabbit": "Rabbit 🐰",
     "hamster": "Hamster 🐹",
+    "fish": "Fish 🐠",
+    "bird": "Bird 🐥",
     "other": "Other species ✨"
   },
 
@@ -47,6 +49,7 @@
   "invalid_weight": "Invalid weight, please enter a valid number.",
   "update_weight": "Updated weight.",
   "invalid_kcal": "Enter a valid value (e.g., 350)",
+  "no_kcal_species":"This species does not calculate based on kcal",
   "loading": "Loading...",
   "nutritional": "Professional nutrition information",
   "daily_energy": "Daily energy",

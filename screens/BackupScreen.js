@@ -67,7 +67,18 @@ const BackupScreen = ({ navigation }) => {
               if (success) {
                 Alert.alert(
                   I18n.t("done"),
-                  I18n.t("done_restart_app")
+                  I18n.t("done_restart_app"),
+                  [
+                    {
+                      text: "OK",
+                      onPress: () => {
+                        navigation.reset({
+                          index: 0,
+                          routes: [{ name: 'Home' }],
+                        });
+                      }
+                    }
+                  ]
                 );
               } else {
                 Alert.alert(I18n.t("not_be_restored"));
