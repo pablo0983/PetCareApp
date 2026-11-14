@@ -99,10 +99,10 @@
 
     return {
       text:
-        `🍽️ ${I18n.t("recommended_grams")}: ${Math.round(gramsPerDay)} g/día\n` +
-        `🔻 ${I18n.t("to_lose")}: ${Math.round(gramsPerDay * 0.8)} g/día\n` +
-        `🔺 ${I18n.t("to_gain")}: ${Math.round(gramsPerDay * 1.2)} g/día\n` +
-        `📊 ${(percentage * 100).toFixed(1)}% del peso corporal`,
+        `🍽️ ${I18n.t("recommended_grams")}: ${Math.round(gramsPerDay)} ${I18n.t("gday")}\n` +
+        `🔻 ${I18n.t("to_lose")}: ${Math.round(gramsPerDay * 0.8)} ${I18n.t("gday")}\n` +
+        `🔺 ${I18n.t("to_gain")}: ${Math.round(gramsPerDay * 1.2)} ${I18n.t("gday")}\n` +
+        `📊 ${(percentage * 100).toFixed(1)}% ${I18n.t("pbody")}`,
     };
   }
 
@@ -116,8 +116,8 @@
 
     return {
       text:
-        `🦎 ${I18n.t("recommended_grams")}: ${Math.round(gramsPerDay)} g/día\n` +
-        `📊 ${(percentage * 100).toFixed(1)}% del peso corporal`,
+        `🦎 ${I18n.t("recommended_grams")}: ${Math.round(gramsPerDay)} ${I18n.t("gday")}\n` +
+        `📊 ${(percentage * 100).toFixed(1)}% ${I18n.t("pbody")}`,
     };
   }
 

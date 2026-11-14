@@ -23,8 +23,11 @@
     "hamster": "Hamster 🐹",
     "fish": "Fish 🐠",
     "bird": "Bird 🐥",
+    "reptile": "Reptile 🦎",
     "other": "Other species ✨"
   },
+  "pbody": "of body weight",
+  "gday": "g/day",
 
   "reminders": "Reminders",
   "reminder": "Your pet needs you",

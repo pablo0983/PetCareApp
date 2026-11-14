@@ -67,7 +67,6 @@ const BackupScreen = ({ navigation }) => {
               if (success) {
                 Alert.alert(
                   I18n.t("done"),
-<<<<<<< HEAD
                   I18n.t("done_restart_app"),
                   [
                     {
@@ -80,9 +79,6 @@ const BackupScreen = ({ navigation }) => {
                       }
                     }
                   ]
-=======
-                  I18n.t("done_restart_app")
->>>>>>> 1a72bfb3467b4be59b17b7a8f12c1141f11fc561
                 );
               } else {
                 Alert.alert(I18n.t("not_be_restored"));
