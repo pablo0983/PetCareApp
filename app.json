@@ -1,7 +1,7 @@
 {
   "name": "PetCareApp",
   "slug": "petcare-app",
-  "version": "3.0.7",
+  "version": "3.0.9",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
   "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
   "ios": {
     "supportsTablet": false,
     "bundleIdentifier": "com.pablopetry.petcareapp",
-    "buildNumber": "18",
+    "buildNumber": "20",
     "entitlements": {},
     "infoPlist": {
       "ITSAppUsesNonExemptEncryption": false,
@@ -21,12 +21,14 @@
       "NSPhotoLibraryUsageDescription": "Necesitamos acceder a la galería",
       "NSPhotoLibraryAddUsageDescription": "Necesitamos guardar fotos",
       "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone",
-      "UIBackgroundModes": ["remote-notification"]
+      "UIBackgroundModes": [
+        "remote-notification"
+      ]
     }
   },
   "android": {
     "package": "com.pablopetry.PetCareApp",
-    "versionCode": 18,
+    "versionCode": 20,
     "adaptiveIcon": {
       "foregroundImage": "./assets/icon.png",
       "backgroundColor": "#ffffff"
@@ -41,7 +43,10 @@
     "favicon": "./assets/icon.png"
   },
   "plugins": [
-    "expo-localization"
+    "expo-localization",
+    "@react-native-community/datetimepicker",
+    "expo-sharing",
+    "./plugins/withOptionalPortrait"
   ],
   "owner": "pablopetry",
   "extra": {
